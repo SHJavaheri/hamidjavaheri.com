@@ -161,7 +161,7 @@ components:
 
 The site is a product launch on a single long stage. Every project gets its moment in a pinned, scrubbed chapter, and the stage itself changes colour to announce who is on: each chapter swaps a theatrical lighting gel (a primary, a secondary and a legible ink) and the whole page cross-fades into it over 1.1s. Type is set like slide titles: heavy, wide, tightly tracked Archivo, with JetBrains Mono for anything the presenter would read off a clicker or a cue card.
 
-There are two houses. House lights up (the default) is a bright near-white keynote slide, washed from the rig above by soft radial pools of the current gel. House lights down is a black stage with a feathered, volumetric follow-spot that lerps after the pointer (or focus, or a slow drift on touch), with dust motes in the beam, a slight blur on everything outside the pool, and hidden presenter cues that become readable only inside the light. Density is low: one idea per viewport, products shown in code-drawn laptops, phones and browsers, architecture shown as exploded isometric diagrams that click together on scroll.
+There are two houses. House lights up (the default) is a bright near-white keynote slide, washed by silk: large, soft pools of the current chapter's three colours that fold into one another, drift as you scroll and swirl like liquid where the pointer stirs them. House lights down is a black stage with a feathered, volumetric follow-spot that lerps after the pointer (or focus, or a slow drift on touch), with dust motes in the beam, a slight blur on everything outside the pool, and hidden presenter cues that become readable only inside the light. Density is low: one idea per viewport, products shown in code-drawn laptops, phones and browsers, architecture shown as exploded isometric diagrams that click together on scroll.
 
 Light, not decoration, is the colour system. Surfaces stay neutral; chroma arrives through the gel wash, the gel ink on a headline's second line, and the gel fill on whatever is currently "on".
 
@@ -238,11 +238,11 @@ The chapter gels. Each is a triple: the gel (wash, progress bar, active tick, nu
 
 A sequence of full-viewport stages (`min-height: 100svh`) padded `stage-top` / `gutter` / `stage-bottom`, with content held to a 1240px `max` wrap. Key chapters are pinned stages (`height: 100svh`, overflow hidden) whose content is scrubbed by scroll over 160-240% of a viewport. Product slides use an asymmetric split (5fr copy / 7fr device, reversible), tours and encores 4fr / 7fr, diagrams 6fr / 4fr. A fixed presenter bar (three-column grid: mark, chapter counter and ticks, controls) and a 2px gel progress line sit above everything. Slide numbers sit bottom right at the gutter.
 
-Breakpoints: chapter ticks hide below 1000px; at 900px every split collapses to one column, pins release into normal flow, showreels stack vertically and choreography switches to simple per-element builds; at 720px pill labels, presenter cues and the name in the mark hide; at 600px the run-of-show strip hides.
+Breakpoints: chapter ticks hide below 1000px; at 900px every split collapses to one column (copy first), pinned stages stay pinned with phone layouts sized to fit one screen (compact two-column specs, chips for feature lists, only the active step of a stepped list), showreels stack vertically and the presenter bar turns solid with a blur; below 720px of height the specs inside pinned product stages hide; at 720px pill labels, presenter cues and the name in the mark hide; at 600px the run-of-show strip hides.
 
 ## Elevation & Depth
 
-Depth is theatrical: light and darkness, not material stacking. The page is flat neutral ground lit by a fixed rig of three radial gel pools; in dark mode a canvas darkness layer is carved by a feathered beam and pool, drawn at quarter resolution and blurred so no edge survives. Shadows exist only to seat objects on the stage (devices, cards, popovers), and they are long, soft and warm in light mode, deep and black in dark mode.
+Depth is theatrical: light and darkness, not material stacking. The page is flat neutral ground lit by silk, a WebGL wash (`silk.ts`, drawn at half resolution, a third on touch) of domain-warped noise pools in three colours per gel over the stage white, calmer in the reading area and stronger at the edges; the old fixed rig of three radial gel pools remains as the no-WebGL fallback; in dark mode a canvas darkness layer is carved by a feathered beam and pool, drawn at quarter resolution and blurred so no edge survives. Shadows exist only to seat objects on the stage (devices, cards, popovers), and they are long, soft and warm in light mode, deep and black in dark mode.
 
 ### Shadow Vocabulary
 - **Seat** (`box-shadow: 0 1px 2px rgb(20 16 10 / 0.06), 0 24px 60px -24px rgb(40 28 10 / 0.28)`; dark: `0 1px 2px rgb(0 0 0 / 0.5), 0 30px 70px -30px rgb(0 0 0 / 0.9)`): cards, tags, podium icons, the volume popover.
@@ -304,8 +304,10 @@ Small mono uppercase notes in gel ink with a leading dot, positioned around a sl
 - **Easing:** `cubic-bezier(0.16, 1, 0.3, 1)` (ease-out) for UI response; `cubic-bezier(0.65, 0, 0.35, 1)` (ease-in-out) for house and gel changes; GSAP `expo.out` for arrivals.
 - **Durations:** 0.2-0.3s for controls, 0.4-0.5s for list state, 0.7s for the house-lights colour change, 0.9s for the follow-spot fade, 1.1s for gel cross-fades and reveals.
 - **Arrivals:** rise 36-56px with fade (intro adds a 6px blur clearing); stagger 0.08-0.12s.
-- **Pinned chapters:** scrubbed timelines (scrub 0.8-1) over 160-240% of a viewport.
-- **Reduced motion:** every chapter settles into its finished state; curtains and the "One more thing" line are removed; the follow-spot holds centre.
+- **Pinned chapters:** scrubbed timelines (scrub 0.8-1) over 160-240% of a viewport, on every screen size.
+- **Scenes (`scenes.ts`):** each pinned stage, reel and flowing stage is a scene. Scrolling is always native and never intercepted; if the visitor comes to rest (160ms) partway through the transition between two scenes, a GSAP glide (0.6-1.8s, power2.inOut, autoKill on any scroll) finishes the move forward, or eases back if they stopped within the first 22%.
+- **Silk:** palettes cross-fade over 1.4s on gel change; pointer speed becomes a decaying stir (swirl plus a faint bloom) around the cursor; scrolling stirs it lightly.
+- **Reduced motion:** every chapter settles into its finished state; curtains and the "One more thing" line are removed; the follow-spot holds centre; scene glides are off and silk is drawn still.
 
 ## Do's and Don'ts
 
