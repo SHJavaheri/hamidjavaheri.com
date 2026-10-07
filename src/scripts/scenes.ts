@@ -1,168 +1,207 @@
 /**
- * Scenes: the show moves in takes, not pixels.
- * A small scroll only leans the stage a little. Push past the threshold and it lets go,
- * gliding to the next resting point, playing any pinned scene on the way.
- * Wheel, touch and keyboard all go through the same director. Reduced motion keeps native scroll.
+ * Scenes: scroll freely inside a scene; between scenes, the show takes over.
+ * At a scene's edge the stage resists for a moment. Push a little more and it lets go,
+ * gliding through the transition to the start of the next scene (or the end of the last).
+ * Wheel, touch and keyboard share the same rules. Reduced motion keeps plain native scroll.
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-/** Where each pinned scene rests, as fractions of its pin. 'steps' rests once per screen. */
-const PIN_STOPS: Record<string, number[] | { steps: string }> = {
-  mc: [0, 1],
-  fl: [0, 1],
-  'fl-arch': [1],
-  podium: [1],
-  omt: [0.35, 1],
-  tour: { steps: '.tour-shot' },
-  stack: [1],
-  encore: { steps: '.frame' },
-};
-/** Flowing (unpinned) blocks whose tops are resting points. */
-const FLOW = '.reel, .stage:not(.pin-stage)';
+type Scene = { start: number; end: number };
 
-const WHEEL_COMMIT = 150; // px of wheel travel before it lets go
-const TOUCH_COMMIT = 56; // px of finger travel before it lets go
-const LEAN = 54; // the most the stage gives before letting go
+/** Unpinned blocks; each is a scene. Pinned stages are scenes over their pin. */
+const FLOW = '.reel, .chapter:not(#opening) .stage:not(.pin-stage)';
 
-let stops: number[] = [];
-let animating = false;
+const WHEEL_COMMIT = 110; // wheel travel at an edge before it lets go, over at least two wheel events (a mouse's second notch)
+const TOUCH_COMMIT = 36; // finger travel at an edge before it lets go
+const LEAN = 48; // the most the stage gives at an edge
+const EDGE = 2; // px tolerance for "at the edge"
+
+let scenes: Scene[] = [];
+let gliding = false;
+let leaning = false; // the wheel is pressing against an edge
+let pulling: 0 | 1 | -1 = 0; // a finger is pulling against an edge
 let tween: gsap.core.Tween | null = null;
+let settledAt = 0;
 
 const vh = () => innerHeight;
 const maxY = () => ScrollTrigger.maxScroll(window);
+/** How far into a transition still counts as "only just past the edge". */
+const nearEdge = () => vh() * 0.3;
 
 function build() {
-  const pins: { start: number; end: number }[] = [];
-  const marks: number[] = [0, maxY()];
-
+  const list: Scene[] = [{ start: 0, end: 0 }]; // the opening: everything after it is the hero transition
   ScrollTrigger.getAll().forEach((st) => {
-    if (!st.pin) return;
-    const range = { start: st.start, end: st.end };
-    pins.push(range);
-    const key = (st.trigger as HTMLElement | undefined)?.dataset.pin;
-    const rule = key ? PIN_STOPS[key] : undefined;
-    if (!rule) return; // a pure transition (the opening): it plays on the way to the next scene
-    const span = range.end - range.start;
-    if (Array.isArray(rule)) rule.forEach((f) => marks.push(range.start + span * f));
-    else {
-      const n = st.trigger!.querySelectorAll(rule.steps).length;
-      for (let i = 0; i < n; i++) marks.push(range.start + span * (i === 0 ? 0 : (i + 0.12) / n));
-    }
+    const el = st.trigger as HTMLElement | undefined;
+    if (st.pin && el?.dataset.pin) list.push({ start: st.start, end: st.end });
   });
-
   document.querySelectorAll<HTMLElement>(FLOW).forEach((el) => {
-    // Flow blocks inside a pin spacer are already covered by their pin.
-    const y = el.getBoundingClientRect().top + scrollY;
-    if (!pins.some((p) => y > p.start + 2 && y < p.end - 2)) marks.push(y);
+    const top = el.getBoundingClientRect().top + scrollY;
+    list.push({ start: top, end: Math.max(top, top + el.offsetHeight - vh()) });
   });
-
   const max = maxY();
-  const sorted = marks.map((y) => Math.round(Math.min(max, Math.max(0, y)))).sort((a, b) => a - b);
-  const out: number[] = [];
-  sorted.forEach((y) => {
+  list.forEach((s) => { s.start = Math.round(Math.min(max, s.start)); s.end = Math.round(Math.min(max, s.end)); });
+  list.sort((a, b) => a.start - b.start);
+  // Scenes that touch or overlap are one scene.
+  const out: Scene[] = [];
+  list.forEach((s) => {
     const last = out[out.length - 1];
-    if (last === undefined || y - last > vh() * 0.22) out.push(y);
-    else if (y === max) out[out.length - 1] = max; // the end of the show always wins
+    if (last && s.start <= last.end + EDGE) last.end = Math.max(last.end, s.end);
+    else out.push({ ...s });
   });
-
-  // Long stretches of flowing content get extra rests, so nothing is skipped unread.
-  const filled: number[] = [];
-  out.forEach((y, i) => {
-    filled.push(y);
-    const next = out[i + 1];
-    if (next === undefined) return;
-    const touchesPin = pins.some((p) => y < p.end - 2 && next > p.start + 2);
-    const gap = next - y;
-    if (touchesPin || gap <= vh() * 1.15) return;
-    const n = Math.ceil(gap / (vh() * 0.85));
-    for (let k = 1; k < n; k++) filled.push(Math.round(y + (gap * k) / n));
-  });
-  stops = filled;
+  out[out.length - 1].end = max; // the curtain call runs to the very end
+  scenes = out;
 }
 
-function targetFrom(from: number, dir: 1 | -1) {
-  if (dir > 0) return stops.find((s) => s > from + 6) ?? maxY();
-  for (let i = stops.length - 1; i >= 0; i--) if (stops[i] < from - 6) return stops[i];
-  return 0;
-}
+/** The scene holding y, or -1 when y sits in a transition between two scenes. */
+const sceneAt = (y: number) => scenes.findIndex((s) => y >= s.start - EDGE && y <= s.end + EDGE);
+/** The scenes either side of a transition point. */
+const around = (y: number) => {
+  const next = scenes.findIndex((s) => s.start > y);
+  return { prev: next === -1 ? scenes.length - 1 : next - 1, next };
+};
 
-function go(y: number) {
+function glide(y: number) {
   const dist = Math.abs(y - scrollY) / vh();
-  if (dist < 0.005) return;
+  if (dist < 0.003) return;
   tween?.kill();
-  animating = true;
+  gliding = true;
   tween = gsap.to(window, {
     scrollTo: { y, autoKill: false },
-    duration: gsap.utils.clamp(0.75, 2.4, 0.5 + dist * 0.4),
+    duration: gsap.utils.clamp(1.1, 2.4, 0.75 + dist * 0.5),
     ease: 'power2.inOut',
-    onComplete: () => { animating = false; settledAt = performance.now(); },
+    onComplete: () => { gliding = false; settledAt = performance.now(); },
   });
 }
 
-function springBack(y: number) {
-  tween?.kill();
-  tween = gsap.to(window, { scrollTo: { y, autoKill: false }, duration: 0.45, ease: 'power3.out' });
+/** Leave in a direction: to the next scene's start, or the previous scene's end. */
+function leave(from: number, dir: 1 | -1) {
+  const i = sceneAt(from);
+  let t: Scene | undefined;
+  if (i !== -1) t = scenes[i + dir];
+  else { const { prev, next } = around(from); t = dir > 0 ? scenes[next] : scenes[prev]; }
+  if (t) glide(dir > 0 ? t.start : t.end);
 }
 
-/** The give before it lets go: quick at first, then stiffer. */
-const lean = (travel: number, commit: number) => Math.sign(travel) * LEAN * (1 - Math.exp((-1.6 * Math.abs(travel)) / commit));
+function springTo(y: number) {
+  tween?.kill();
+  tween = gsap.to(window, { scrollTo: { y, autoKill: false }, duration: 0.5, ease: 'power3.out' });
+}
 
-let settledAt = 0;
+/** The give at an edge: quick at first, then stiffer. */
+const lean = (travel: number, commit: number) => Math.sign(travel) * LEAN * (1 - Math.exp((-1.4 * Math.abs(travel)) / commit));
 
 function initWheel() {
-  let acc = 0, base = 0, lastTs = 0, idle = 0;
+  let acc = 0, pushes = 0, edge = 0, lastTs = 0, idle = 0, locked = false;
   addEventListener('wheel', (e) => {
     if (e.ctrlKey) return; // pinch-zoom on trackpads
-    e.preventDefault();
     const now = performance.now();
-    const quiet = now - lastTs > 160;
+    const quiet = now - lastTs > 140;
     lastTs = now;
-    // While gliding, and while a trackpad's momentum is still running out, input is swallowed.
-    if (animating || (!quiet && now - settledAt < 1200 && acc === 0)) return;
+    if (gliding) { e.preventDefault(); return; }
+    // A trackpad's momentum left over from a glide is swallowed, not scrolled.
+    if (!quiet && now - settledAt < 900) { e.preventDefault(); return; }
 
     const d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? vh() : 1);
     if (!d) return;
-    if (acc === 0) { tween?.kill(); base = scrollY; }
-    if (Math.sign(d) !== Math.sign(acc)) acc = 0;
-    acc += d;
+    const dir: 1 | -1 = d > 0 ? 1 : -1;
+    const y = leaning ? edge : scrollY;
+    let i = sceneAt(y);
 
-    clearTimeout(idle);
-    if (Math.abs(acc) >= WHEEL_COMMIT) {
-      const dir = acc > 0 ? 1 : -1;
-      acc = 0;
-      go(targetFrom(base, dir));
-      return;
+    if (!leaning && i !== -1) {
+      // Inside a scene and not about to cross its edge: plain native scrolling.
+      const s = scenes[i];
+      const lim = dir > 0 ? s.end : s.start;
+      const atEdge = Math.abs(y - lim) <= EDGE;
+      if (!atEdge && (dir > 0 ? y + d < lim : y + d > lim)) return;
+      e.preventDefault();
+      if (!atEdge) {
+        // Arrive at the edge and stop there. A scroll that was already running has to pause before it can push through.
+        tween?.kill();
+        scrollTo(0, lim);
+        locked = !quiet;
+        return;
+      }
+    } else e.preventDefault();
+
+    if (i === -1) {
+      // Smooth scrolling overshot an edge by a little: settle on that edge. Deep in a transition: finish it.
+      const { prev, next } = around(y);
+      const back = dir > 0 ? scenes[prev] : scenes[next];
+      const lim = back && (dir > 0 ? back.end : back.start);
+      if (back && Math.abs(y - lim) < nearEdge()) { tween?.kill(); scrollTo(0, lim); locked = !quiet; i = scenes.indexOf(back); if (locked) return; }
+      else { leave(y, dir); return; }
     }
-    scrollTo(0, base + lean(acc, WHEEL_COMMIT));
-    idle = window.setTimeout(() => { acc = 0; springBack(base); }, 220);
+
+    if (locked) { if (!quiet) return; locked = false; }
+    const s = scenes[i];
+    if (!leaning || Math.sign(acc) !== dir) { tween?.kill(); acc = 0; pushes = 0; edge = dir > 0 ? s.end : s.start; }
+    if (!scenes[i + dir]) { acc = 0; leaning = false; return; } // the very start or end of the show
+    leaning = true;
+    acc += d; pushes++;
+    clearTimeout(idle);
+    if (pushes >= 2 && Math.abs(acc) >= WHEEL_COMMIT) { acc = 0; leaning = false; leave(edge, dir); return; }
+    scrollTo(0, edge + lean(acc, WHEEL_COMMIT));
+    idle = window.setTimeout(() => { acc = 0; leaning = false; springTo(edge); }, 480);
   }, { passive: false });
 }
 
 function initTouch() {
-  let y0 = 0, x0 = 0, t0 = 0, base = 0, live = false;
+  let y0 = 0, x0 = 0, t0 = 0, edge = 0, touching = false, decided = false;
   addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 1) { live = false; return; }
-    live = true;
+    touching = e.touches.length === 1;
+    decided = false; pulling = 0;
     y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; t0 = performance.now();
-    if (!animating) { tween?.kill(); base = scrollY; }
   }, { passive: true });
+
   addEventListener('touchmove', (e) => {
-    if (!live || e.touches.length !== 1) return;
-    e.preventDefault();
-    if (animating) return;
+    if (!touching || e.touches.length !== 1) return;
+    if (gliding) { e.preventDefault(); return; }
     const dy = y0 - e.touches[0].clientY;
-    scrollTo(0, base + lean(dy, TOUCH_COMMIT * 1.6));
+    if (!decided && Math.abs(dy) > 4) {
+      decided = true;
+      // At a scene's edge and pulling outwards: the stage resists. Anything else scrolls natively.
+      const i = sceneAt(scrollY), dir: 1 | -1 = dy > 0 ? 1 : -1;
+      if (i !== -1 && scenes[i + dir]) {
+        const lim = dir > 0 ? scenes[i].end : scenes[i].start;
+        if (Math.abs(scrollY - lim) <= EDGE * 2) { pulling = dir; edge = lim; tween?.kill(); }
+      }
+    }
+    if (!pulling) return;
+    e.preventDefault();
+    const pull = Math.sign(dy) === pulling ? dy : 0;
+    scrollTo(0, edge + lean(pull, TOUCH_COMMIT * 1.4));
   }, { passive: false });
+
   addEventListener('touchend', (e) => {
-    if (!live) return;
-    live = false;
-    if (animating) return;
+    if (!touching) return;
+    touching = false;
+    if (!pulling || gliding) { pulling = 0; return; }
     const t = e.changedTouches[0];
     const dy = y0 - t.clientY, dx = x0 - t.clientX;
-    const v = Math.abs(dy) / Math.max(1, performance.now() - t0); // px per ms
-    if (Math.abs(dy) > Math.abs(dx) && (Math.abs(dy) >= TOUCH_COMMIT || (Math.abs(dy) > 18 && v > 0.45))) go(targetFrom(base, dy > 0 ? 1 : -1));
-    else if (Math.abs(scrollY - base) > 1) springBack(base);
+    const v = Math.abs(dy) / Math.max(1, performance.now() - t0);
+    const out = Math.sign(dy) === pulling && Math.abs(dy) > Math.abs(dx);
+    if (out && (Math.abs(dy) >= TOUCH_COMMIT || v > 0.35)) leave(edge, pulling);
+    else springTo(edge);
+    pulling = 0;
+  }, { passive: true });
+}
+
+/** Momentum or a hard swipe that leaves the page partway through a transition: settle or carry on. */
+function initSettle() {
+  let lastY = scrollY, travel = 0, timer = 0;
+  addEventListener('scroll', () => {
+    travel = scrollY - lastY || travel;
+    lastY = scrollY;
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      if (gliding || leaning || pulling || scrollY > maxY() - EDGE || sceneAt(scrollY) !== -1) return;
+      const { prev, next } = around(scrollY);
+      const a = scenes[prev], b = scenes[next];
+      if (!a || !b) return;
+      if (travel > 0) scrollY - a.end < nearEdge() ? springTo(a.end) : glide(b.start);
+      else b.start - scrollY < nearEdge() ? springTo(b.start) : glide(a.end);
+    }, 120);
   }, { passive: true });
 }
 
@@ -173,15 +212,26 @@ function initKeys() {
     if (el.closest('input, textarea, select, [contenteditable]')) return;
     const space = e.key === ' ';
     if (space && el.closest('button, a')) return;
-    let y: number | null = null;
-    const from = animating && tween ? Number((tween.vars.scrollTo as { y: number }).y) : scrollY;
-    if (e.key === 'ArrowDown' || e.key === 'PageDown' || (space && !e.shiftKey)) y = targetFrom(from, 1);
-    else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (space && e.shiftKey)) y = targetFrom(from, -1);
-    else if (e.key === 'Home') y = 0;
-    else if (e.key === 'End') y = maxY();
-    if (y === null) return;
+    let dir: 1 | -1 | 0 = 0, step = 0;
+    if (e.key === 'ArrowDown') { dir = 1; step = 80; }
+    else if (e.key === 'ArrowUp') { dir = -1; step = 80; }
+    else if (e.key === 'PageDown' || (space && !e.shiftKey)) { dir = 1; step = vh() * 0.85; }
+    else if (e.key === 'PageUp' || (space && e.shiftKey)) { dir = -1; step = vh() * 0.85; }
+    else if (e.key === 'Home') { e.preventDefault(); glide(0); return; }
+    else if (e.key === 'End') { e.preventDefault(); glide(maxY()); return; }
+    if (!dir) return;
     e.preventDefault();
-    go(y);
+    if (gliding) return;
+    const y = scrollY, i = sceneAt(y);
+    if (i === -1) { leave(y, dir); return; }
+    const lim = dir > 0 ? scenes[i].end : scenes[i].start;
+    // Inside a scene, keys scroll like normal; at its edge they move on to the next scene.
+    if (Math.abs(y - lim) <= EDGE) leave(y, dir);
+    else {
+      tween?.kill();
+      const to = dir > 0 ? Math.min(lim, y + step) : Math.max(lim, y - step);
+      tween = gsap.to(window, { scrollTo: { y: to, autoKill: false }, duration: step > 100 ? 0.6 : 0.25, ease: 'power2.out' });
+    }
   });
 }
 
@@ -191,8 +241,9 @@ export function initScenes() {
   build();
   initWheel();
   initTouch();
+  initSettle();
   initKeys();
 }
 
-/** For debugging in the console: the resting points, in px. */
-export const sceneStops = () => stops.slice();
+/** For debugging: the scenes, as [start, end] scroll ranges in px. */
+export const sceneRanges = () => scenes.map((s) => [s.start, s.end]);
