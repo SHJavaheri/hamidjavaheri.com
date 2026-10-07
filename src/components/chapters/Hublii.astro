@@ -253,7 +253,20 @@ const layers = [
 
   @media (max-width: 900px) {
     .tour, .stack-grid, .crew, .phones { grid-template-columns: 1fr; }
-    .tourstage, .stack { align-items: flex-start; padding-top: 84px; }
+    .tourstage, .stack { align-items: flex-start; }
+    .tour, .stack-grid { gap: 14px; }
+    .tour-copy h3, .stack-copy h3 { margin-bottom: 10px; }
+    .qs { margin-top: 12px; }
+    .qs li { padding: 6px 0 6px 34px; }
+    .qs li::before { top: 8px; }
+    .qs li:not(.on) { display: none; }
+    .tour-note { margin-top: 10px; }
+    .stack-copy { order: -1; }
+    .chips { margin-top: 14px; gap: 6px; }
+    .chips li { font-size: 12px; padding: 5px 10px; }
+    .iso-fig { margin-top: 8px; }
+    .lab .lt { font-size: 24px; }
+    .lab text tspan:not(.lt) { display: none; }
     .feature-list { grid-template-columns: 1fr; }
     .tour-device :global(.hub-laptop) { font-size: 1.32vw; }
     .phones { justify-items: center; }

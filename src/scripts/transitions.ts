@@ -86,13 +86,20 @@ export function initHeroTransition() {
     const dot = name.querySelector('.dot');
     const text = (name.firstChild?.textContent ?? '').trim();
     name.innerHTML = '';
-    Array.from(text).forEach((c) => {
-      const s = document.createElement('span');
-      s.className = 'ch'; s.setAttribute('aria-hidden', 'true');
-      s.textContent = c === ' ' ? ' ' : c;
-      name.append(s);
+    // Letters are grouped per word (the dot rides with the last), so the name only wraps between words.
+    const words = text.split(/\s+/);
+    words.forEach((word, wi) => {
+      if (wi) name.append(' ');
+      const w = document.createElement('span');
+      w.className = 'wd'; w.setAttribute('aria-hidden', 'true');
+      Array.from(word).forEach((c) => {
+        const s = document.createElement('span');
+        s.className = 'ch'; s.textContent = c;
+        w.append(s);
+      });
+      if (dot && wi === words.length - 1) w.append(dot);
+      name.append(w);
     });
-    if (dot) name.append(dot);
   }
   const chars = $$('#opening-title .ch, #opening-title .dot');
   const portrait = $('[data-spot-anchor]');

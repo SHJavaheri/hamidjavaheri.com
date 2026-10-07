@@ -95,10 +95,10 @@ const lWeb = label(0.8, 4.6, 3.2), lApp = label(8.6, 4.0, 4.6), lBase = label(10
             <path class="guide" d={`M${app.topCenter.x} ${app.topCenter.y - 110} V${app.topCenter.y - 18}`} marker-end="url(#fl-arrow)" />
           </g>
           <g class="labels">
-            <g class="lab" data-lab><line x1={lWeb.x} y1={lWeb.y} x2={lWeb.x - 70} y2={lWeb.y + 40} /><text x={lWeb.x - 76} y={lWeb.y + 46} text-anchor="end"><tspan class="lt">Web app</tspan><tspan x={lWeb.x - 76} dy="18">Next.js on Vercel</tspan></text></g>
-            <g class="lab" data-lab><line x1={lApp.x} y1={lApp.y} x2={lApp.x + 60} y2={lApp.y - 30} /><text x={lApp.x + 66} y={lApp.y - 34}><tspan class="lt">Phone app</tspan><tspan x={lApp.x + 66} dy="18">iOS and Android, Expo</tspan></text></g>
+            <g class="lab" data-lab><line x1={lWeb.x} y1={lWeb.y} x2={lWeb.x - 70} y2={lWeb.y + 40} /><text x={lWeb.x - 76} y={lWeb.y + 46} text-anchor="end"><tspan class="lt">Web app</tspan><tspan x={lWeb.x - 76} dy="18" class="sub">Next.js on Vercel</tspan></text></g>
+            <g class="lab" data-lab><line x1={lApp.x} y1={lApp.y} x2={lApp.x + 60} y2={lApp.y - 30} /><text x={lApp.x + 66} y={lApp.y - 34}><tspan class="lt">Phone app</tspan><tspan x={lApp.x + 66} dy="18" class="sub">iOS and Android, Expo</tspan></text></g>
             <g class="lab" data-lab><line x1={lBridge.x} y1={lBridge.y} x2={lBridge.x + 64} y2={lBridge.y - 92} /><text x={lBridge.x + 70} y={lBridge.y - 108}><tspan class="lt">Live bridge</tspan><tspan x={lBridge.x + 70} dy="18" class="sub">messages and notifications</tspan></text></g>
-            <g class="lab" data-lab><line x1={lBase.x} y1={lBase.y} x2={lBase.x + 40} y2={lBase.y + 30} /><text x={lBase.x + 46} y={lBase.y + 36}><tspan class="lt">One backend</tspan><tspan x={lBase.x + 46} dy="18">Supabase: database, sign-in, realtime</tspan></text></g>
+            <g class="lab" data-lab><line x1={lBase.x} y1={lBase.y} x2={lBase.x + 40} y2={lBase.y + 30} /><text x={lBase.x + 46} y={lBase.y + 36}><tspan class="lt">One backend</tspan><tspan x={lBase.x + 46} dy="18" class="sub">Supabase: database, sign-in, realtime</tspan></text></g>
           </g>
         </svg>
       </figure>
@@ -168,7 +168,15 @@ const lWeb = label(0.8, 4.6, 3.2), lApp = label(8.6, 4.0, 4.6), lBase = label(10
   @media (max-width: 900px) {
     .fl-wrap { min-height: 0; }
     .tag { display: none; }
-    .arch-grid { grid-template-columns: 1fr; }
-    .arch { align-items: flex-start; padding-top: 84px; }
+    .fl-wrap :global([data-fl-phone]) { font-size: clamp(3.6px, calc((100svh - 560px) / 64), 5px); }
+    .arch { align-items: flex-start; }
+    .arch-grid { grid-template-columns: 1fr; gap: 10px; }
+    .arch-copy h3 { margin-bottom: 10px; }
+    .feat { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; border-top: 0; }
+    .feat li { padding: 5px 11px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 12px; line-height: 1.35; }
+    .feat li::before { display: none; }
+    .iso-fig { padding: 0 6%; }
+    .lab .lt { font-size: 24px; }
+    .lab .sub { display: none; }
   }
 </style>
