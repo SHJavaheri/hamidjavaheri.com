@@ -25,7 +25,7 @@ import { hublii, pawmetric } from '../../data/site';
             <ul class="mini">
               {pawmetric.features.map((f) => <li>{f}</li>)}
             </ul>
-            <p class="data built">{pawmetric.stack.join(' · ')}</p>
+            <p class="data built">{pawmetric.timeline} · {pawmetric.stack.join(' · ')}</p>
           </div>
           <div class="paw-phone" data-paw-phone>
             <Device kind="phone">

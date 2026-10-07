@@ -33,6 +33,7 @@ export const chapters: Chapter[] = [
 
 export const hublii = {
   url: 'https://hublii.com',
+  timeline: 'September 2026 – now',
   tagline: "One calm place for you and your clients: what's happening, what's next, and where everything is.",
   what:
     'A client portal and project hub for service businesses. Clients join by invitation, and both sides get one calm, branded place for projects, milestones, updates, files, approvals, messages and invoices.',
@@ -75,6 +76,7 @@ export const firstline = {
     ['Native', 'Expo · React Native'],
     ['Backend', 'Supabase · Postgres · Realtime'],
     ['Size', '~56K lines of code'],
+    ['Timeline', '2025 idea · 2026 build'],
   ],
 } as const;
 
@@ -87,6 +89,7 @@ export const mashoorcake = {
     ['Signature', 'Live SVG Cake Maker'],
     ['Requests', 'WhatsApp · email · PDF'],
     ['Built with', 'Next.js, static export'],
+    ['Timeline', '2025 · live and maintained'],
   ],
 } as const;
 
@@ -103,6 +106,7 @@ export const bethesda = {
     { title: 'A gentle application', body: 'A multi-step form that saves a draft as you go.' },
   ],
   stack: ['Next.js 16', 'TypeScript', 'Tailwind v4', 'GSAP', 'Vitest'],
+  timeline: '2025 – 2026',
 } as const;
 
 export const pawmetric = {
@@ -112,6 +116,7 @@ export const pawmetric = {
     'Log every walk, nap, meal and potty break, then see the patterns: a daily wellness score, trends, and predictions for what your puppy needs next.',
   features: ['11 kinds of activity', 'Daily wellness score', 'Next-event predictions', 'Multiple pets', 'On-device, no account'],
   stack: ['Expo', 'React Native', 'SQLite', 'Reanimated'],
+  timeline: '2025 – now',
 } as const;
 
 export const goals = [

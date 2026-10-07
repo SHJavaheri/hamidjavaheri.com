@@ -21,7 +21,7 @@ const frames = [
             <li data-beat={i} class={i === 0 ? 'on' : ''}><b>{f.title}</b><span>{f.body}</span></li>
           ))}
         </ol>
-        <p class="data built">{bethesda.stack.join(' · ')}</p>
+        <p class="data built">{bethesda.timeline} · {bethesda.stack.join(' · ')}</p>
       </div>
       <div class="screens">
         <Device kind="browser" url="bethesda labradors" class="enc-browser">
