@@ -48,7 +48,7 @@ function intro() {
   gsap.from('[data-spot-anchor] img', { opacity: 0, scale: 0.92, duration: 1.3, ease: 'expo.out', clearProps: 'opacity,transform' });
 }
 
-function choreograph() {
+function choreograph(wide: boolean) {
   const reveal = (targets: gsap.TweenTarget, trigger: Element | string) =>
     gsap.from(targets, { y: 48, opacity: 0, stagger: 0.08, duration: 1, ease: 'expo.out', scrollTrigger: { trigger, start: 'top 68%', toggleActions: 'play none none reverse' } });
 
@@ -77,8 +77,8 @@ function choreograph() {
     .to('[data-mc="fa"]', { opacity: 1, duration: 0.35 }, '<')
     .to({}, { duration: 0.3 });
 
-  // Showreels drift sideways as they pass.
-  $$('[data-reel]').forEach((reel) => {
+  // Showreels drift sideways as they pass (phones stack them instead).
+  if (wide) $$('[data-reel]').forEach((reel) => {
     const track = $('.reel-track', reel);
     if (!track) return;
     gsap.fromTo(track, { x: () => innerWidth * 0.12 }, { x: () => -Math.max(0, track.scrollWidth - innerWidth) - innerWidth * 0.04, ease: 'none',
@@ -248,31 +248,9 @@ export function initShow() {
     const { motion, wide } = ctx.conditions as { motion: boolean; wide: boolean };
     if (!motion) { settle(); return; }
     intro();
-    if (wide) choreograph();
-    else choreographNarrow();
+    choreograph(wide);
   });
   // Created after the pins so its start/end positions include the pin spacing.
   initPresenter();
   addEventListener('load', () => ScrollTrigger.refresh());
-}
-
-/** Phones: no pinning; each piece simply builds as it arrives. */
-function choreographNarrow() {
-  $$('.rv, [data-build] > *, .arch-copy > *, .stack-copy > *').forEach((el) =>
-    gsap.from(el, { y: 36, opacity: 0, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%' } }));
-  gsap.set('[data-fl-phone] .s2, [data-fl-phone] .s3', { opacity: 0 });
-  gsap.from('.p-base, .p-web, .p-app, .p-bridge', { y: -50, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.iso-fig', start: 'top 80%' } });
-  gsap.from('[data-layer]', { y: -40, opacity: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: '[data-pin="stack"] .iso-fig', start: 'top 80%' } });
-  gsap.set('[data-omt-line]', { display: 'none' });
-  gsap.set('[data-omt-glow]', { opacity: 1 });
-  gsap.from('[data-omt-reveal] > *', { y: 30, opacity: 0, stagger: 0.1, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: '[data-pin="omt"]', start: 'top 70%' } });
-  $('[data-mystery]')?.classList.add('revealed');
-  const nm = $('[data-p1-name]'); if (nm) nm.textContent = 'hublii';
-  $$('.qs li, .beats li').forEach((li) => li.classList.add('on'));
-  $$('.tour-shot').forEach((s, i) => gsap.set(s, { opacity: i === 0 ? 1 : 0 }));
-  gsap.from('.pod .block', { scaleY: 0, stagger: 0.15, duration: 0.9, ease: 'power3.out', transformOrigin: '50% 100%', scrollTrigger: { trigger: '.pod', start: 'top 75%' } });
-  gsap.set('[data-curtains]', { display: 'none' });
-  const q = $('[data-longgoal]');
-  if (q) { q.innerHTML = (q.textContent ?? '').split(' ').map((w) => `<span class="w">${w}</span>`).join(' ');
-    gsap.to('[data-longgoal] .w', { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: q, start: 'top 85%', end: 'bottom 50%', scrub: true } }); }
 }

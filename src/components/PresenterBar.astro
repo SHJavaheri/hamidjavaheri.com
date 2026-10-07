@@ -118,7 +118,8 @@ const total = String(chapters.length - 1).padStart(2, '0');
 
   @media (max-width: 1000px) { .ticks { display: none; } }
   @media (max-width: 720px) {
-    .bar { grid-template-columns: auto 1fr auto; padding: 12px 16px; }
+    .bar { grid-template-columns: auto 1fr auto; padding: 10px 16px; background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
     .presenter { justify-content: center; }
     .counter { min-width: 0; text-align: center; }
     .counter :global(.nm) { display: none; }
