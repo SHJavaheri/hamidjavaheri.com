@@ -19,8 +19,8 @@
 .split { width: 100%; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4.5vw, 80px); align-items: center; }
 .split.rev { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .split.rev .copy { order: 2; }
-.rank { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 22px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); }
-.place { font-family: var(--display); font-weight: 900; font-stretch: 125%; font-size: 15px; letter-spacing: -0.02em; color: #fff; background: var(--gel); border-radius: 7px; padding: 4px 9px; }
+/* Honest labelling for mocked-up screens. */
+.sample { position: absolute; z-index: 2; left: 50%; bottom: -30px; transform: translateX(-50%); white-space: nowrap; color: var(--mute); }
 .copy h2 { margin-bottom: 22px; }
 .specs { margin-top: 28px; border-top: 1px solid var(--line); max-width: 34em; }
 .specs div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }

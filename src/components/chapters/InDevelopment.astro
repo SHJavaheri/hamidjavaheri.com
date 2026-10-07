@@ -41,6 +41,7 @@ import { hublii, pawmetric } from '../../data/site';
                 </div>
               </div>
             </Device>
+            <p class="data paw-note">Sample data</p>
           </div>
         </article>
       </div>
@@ -76,6 +77,8 @@ import { hublii, pawmetric } from '../../data/site';
   .mini li { font-size: 13px; font-weight: 600; padding: 6px 11px; border-radius: 999px; background: color-mix(in srgb, #a98fe0 16%, transparent); color: var(--fg); }
   .built { margin-top: auto; padding-top: 24px; }
   .paw-phone { align-self: end; margin-bottom: -38%; transform: rotate(-6deg); }
+  .paw-note { position: absolute; left: 50%; top: -28px; transform: translateX(-50%) rotate(6deg); white-space: nowrap; color: var(--mute); }
+  .paw-phone { position: relative; }
   .paw-phone :global(.phone) { font-size: clamp(5.4px, 0.62vw, 8.6px); }
 
   .pw { position: absolute; inset: 0; background: #fbf7ff; color: #2a2236; padding: 5.2em 1.8em 1.8em; display: flex; flex-direction: column; gap: 1.3em; font-family: var(--display); }
@@ -103,7 +106,9 @@ import { hublii, pawmetric } from '../../data/site';
     .grid { grid-template-columns: 1fr; }
     .paw { grid-template-columns: 1fr; }
     .paw-phone { justify-self: center; margin-bottom: -50%; }
-    .paw-phone :global(.phone) { font-size: 1.6vw; }
+    .paw-note { position: absolute; left: 50%; top: -28px; transform: translateX(-50%) rotate(6deg); white-space: nowrap; color: var(--mute); }
+  .paw-phone { position: relative; }
+  .paw-phone :global(.phone) { font-size: 1.6vw; }
     .yumi { width: 30%; bottom: 100px; }
   }
 </style>

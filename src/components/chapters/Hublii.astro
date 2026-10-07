@@ -58,6 +58,7 @@ const layers = [
             <img class="tour-shot" data-shot={i} src={t.src} alt={t.alt} width="1440" height="835" loading={i ? 'lazy' : 'eager'} decoding="async" />
           ))}
         </Device>
+        <p class="data tour-note">Sample data, from hublii's demo workspace</p>
       </div>
     </div>
   </div>
@@ -165,16 +166,19 @@ const layers = [
   .tour { width: 100%; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 70px); align-items: center; }
   .tour-copy h3 { margin-bottom: 18px; }
   .qs { list-style: none; margin-top: 26px; display: grid; gap: 4px; }
-  .qs li { padding: 12px 0 12px 18px; position: relative; color: var(--faint); transition: color 0.4s; }
-  .qs li::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--line-strong); transition: background-color 0.4s; }
+  .qs { counter-reset: q; }
+  .qs li { counter-increment: q; padding: 12px 0 12px 34px; position: relative; color: var(--faint); transition: color 0.4s; }
+  .qs li::before { content: counter(q); position: absolute; left: 0; top: 14px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%;
+    font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--faint); box-shadow: 0 0 0 1px var(--line-strong) inset; transition: background-color 0.4s, color 0.4s, box-shadow 0.4s; }
   .qs li b { display: block; font-weight: 750; font-stretch: 108%; letter-spacing: -0.02em; font-size: clamp(1.1rem, 1.6vw, 1.4rem); }
   .qs li { display: grid; grid-template-rows: auto 0fr; transition: color 0.4s, grid-template-rows 0.5s var(--ease-out); }
   .qs li span { display: block; font-size: 15px; min-height: 0; overflow: hidden; opacity: 0; transition: opacity 0.4s; }
   .qs li.on { color: var(--fg); }
-  .qs li.on::before { background: var(--gel); }
+  .qs li.on::before { background: var(--gel); color: #fff; box-shadow: none; }
   .qs li.on { grid-template-rows: auto 1fr; }
   .qs li.on span { opacity: 1; color: var(--mute); margin-top: 4px; }
   .tour-device :global(.hub-laptop) { font-size: clamp(5px, 0.84vw, 12.2px); margin-inline: auto; }
+  .tour-note { margin-top: 18px; text-align: center; color: var(--mute); }
   .tour-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: 0; }
   .tour-shot[data-shot='0'] { opacity: 1; }
 

@@ -63,4 +63,4 @@ Featured projects (repos are read-only sources; private repos are never linked):
 
 ## Accessibility & Inclusion
 
-WCAG 2.1 AA. Reduced-motion alternative for all scroll-driven and flashlight effects; audio never autoplays unmuted; full keyboard navigation.
+WCAG 2.1 AA. Reduced-motion alternative for all scroll-driven and flashlight effects; ambient audio attempts to start at 5% on arrival (Hamid's explicit request, 2026-10-07) and otherwise on the first click, tap or key press, always with a visible mute and volume control; full keyboard navigation.

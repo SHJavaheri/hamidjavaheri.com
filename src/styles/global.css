@@ -24,7 +24,7 @@
   --gel: #d9862b;
   --gel-2: #f2b33d;
   --gel-ink: #8a4a08;
-  --wash: 0.16;
+  --wash: 0.34;
 
   --display: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
@@ -51,7 +51,7 @@
   --panel: #111114;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 30px 70px -30px rgb(0 0 0 / 0.9);
   --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.5), 0 60px 140px -40px rgb(0 0 0 / 0.95);
-  --wash: 0.22;
+  --wash: 0.26;
   color-scheme: dark;
 }
 
@@ -77,6 +77,7 @@
 
 html {
   background: var(--bg);
+  transition: background-color 0.7s var(--ease-in-out);
   scrollbar-width: none;
   -ms-overflow-style: none;
   overflow-x: clip;
@@ -86,7 +87,7 @@ html {
 html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 
 body {
-  background: var(--bg);
+  background: transparent; /* html paints the ground, so the fixed .rig light shows through */
   color: var(--fg);
   font-family: var(--display);
   font-stretch: 100%;
@@ -95,7 +96,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
-  transition: background-color 0.7s var(--ease-in-out), color 0.7s var(--ease-in-out);
+  transition: color 0.7s var(--ease-in-out);
   caret-color: var(--gel);
 }
 

@@ -55,6 +55,13 @@ export function initSpotlight() {
     pointerLive = true; L.tx = e.clientX; L.ty = e.clientY;
   }, { passive: true });
   document.addEventListener('pointerleave', () => { pointerLive = false; });
+  // Keyboard visitors: the light follows focus.
+  document.addEventListener('focusin', (e) => {
+    const el = e.target as Element | null;
+    if (!el?.getBoundingClientRect) return;
+    const b = el.getBoundingClientRect();
+    pointerLive = true; L.tx = b.left + b.width / 2; L.ty = b.top + b.height / 2;
+  });
 
   const motes: Mote[] = Array.from({ length: 70 }, () => ({
     t: Math.random(), s: Math.random() * 2 - 1, sp: 0.0005 + Math.random() * 0.0012, z: 0.5 + Math.random() * 1.3, ph: Math.random() * 6.28,
@@ -85,7 +92,7 @@ export function initSpotlight() {
     const tr = baseR * (1 + boost * 0.8);
     L.r += (tr - L.r) * k;
     const r = Math.max(4, L.r), x = L.x, y = L.y;
-    const darkness = reduce.matches ? 0.5 : coarse.matches ? 0.66 : 0.82 - boost * 0.3;
+    const darkness = reduce.matches ? 0.5 : coarse.matches ? 0.66 : 0.64 - boost * 0.25;
 
     // ---- darkness, carved by the beam and pool (quarter-res => feathered) ----
     const s = SCALE;

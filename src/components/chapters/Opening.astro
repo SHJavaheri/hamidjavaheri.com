@@ -40,8 +40,9 @@ import { chapters, person } from '../../data/site';
     background: radial-gradient(closest-side, color-mix(in srgb, var(--gel-2) 42%, transparent), transparent); filter: blur(8px); }
   .name { margin-bottom: clamp(16px, 2.6vh, 26px); }
   .dot { color: var(--gel); }
-  .intro { margin: 0 auto; max-width: 31em; }
-  .runofshow { list-style: none; margin-top: clamp(28px, 5.4vh, 56px); display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; max-width: 920px; }
+  .intro { margin: 0 auto; max-width: 31em; text-wrap: balance; }
+  .runofshow { list-style: none; margin-top: clamp(28px, 5.4vh, 56px); display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; max-width: 1180px; }
+  .runofshow li { white-space: nowrap; }
   .runofshow a { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color 0.2s; }
   .runofshow a:hover { color: var(--fg); }
   .runofshow b { color: var(--gel-ink); font-weight: 600; margin-right: 6px; }
