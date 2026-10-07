@@ -1,0 +1,174 @@
+---
+import Device from '../Device.astro';
+import { firstline } from '../../data/site';
+import { slab, iso, rightInset, leftInset } from '../../lib/iso';
+
+// Exploded diagram: one backend, two apps, a live bridge between them.
+const U = 30, OX = 330, OY = 170;
+const base = slab(0, 0, 0, 10, 6, 0.9, U, OX, OY);
+const web = slab(0.8, 1.2, 0.9, 3.4, 3.4, 4.2, U, OX, OY);
+const app = slab(6.4, 1.8, 0.9, 2.2, 2.2, 5.2, U, OX, OY);
+const bridge = slab(4.2, 2.3, 4.0, 2.2, 1.0, 0.45, U, OX, OY);
+const webScreen = leftInset(0.8, 1.2, 0.9, 3.4, 3.4, 4.2, 0.35, U, OX, OY);
+const webSide = rightInset(0.8, 1.2, 0.9, 3.4, 3.4, 4.2, 0.35, U, OX, OY);
+const appScreen = leftInset(6.4, 1.8, 0.9, 2.2, 2.2, 5.2, 0.3, U, OX, OY);
+const label = (x: number, y: number, z: number) => iso(x, y, z, U, OX, OY);
+const lWeb = label(0.8, 4.6, 3.2), lApp = label(8.6, 4.0, 4.6), lBase = label(10, 6, 0.4), lBridge = label(5.3, 2.8, 4.45);
+---
+<section class="chapter product" id="firstline" data-chapter="firstline" data-gel="firstline" aria-labelledby="fl-title">
+  <div class="stage pin-stage" data-pin="fl">
+    <div class="split rev wrap">
+      <div class="device-wrap fl-wrap">
+        <span class="tag t1">Web · <em>Next.js + Supabase</em></span>
+        <span class="tag t2">Native · <em>Expo</em></span>
+        <span class="cue" style="right:10%;top:2%">Note: push notifications, live</span>
+        <Device kind="phone" data-fl-phone>
+          <div class="screen s1"><div class="fl">
+            <div class="hd"><p class="h5">Find a pro</p><img src="/projects/firstline/firstline-logo.webp" alt="" width="64" height="64" /></div>
+            <div class="search">Lawyers, accountants, agents…</div>
+            <div class="chips"><span class="chip on">Lawyers</span><span class="chip">Accountants</span><span class="chip">Agents</span><span class="chip">Contractors</span></div>
+            <div class="card"><span class="av"></span><div><b>Family lawyer</b><small>4.9 · 128 reviews</small></div><span class="ok">Verified</span></div>
+            <div class="card"><span class="av" style="background:linear-gradient(135deg,#ffd9b3,#ffe9a8)"></span><div><b>Tax accountant</b><small>4.8 · 96 reviews</small></div></div>
+            <div class="card"><span class="av" style="background:linear-gradient(135deg,#d9c8f0,#bcd3ff)"></span><div><b>Real estate agent</b><small>4.9 · 211 reviews</small></div></div>
+            <div class="card"><span class="av" style="background:linear-gradient(135deg,#b9ecd9,#e0f0b8)"></span><div><b>General contractor</b><small>4.7 · 64 reviews</small></div></div>
+          </div></div>
+          <div class="screen s2"><div class="fl msgs">
+            <div class="hd abs"><p class="h5">Messages</p><span class="ok">Live</span></div>
+            <div class="bub out">Hi! Are you taking on new clients this month?</div>
+            <div class="bub in">Yes, happy to help. When works for a quick call?</div>
+            <div class="bub out">Tomorrow morning?</div>
+            <div class="typing"><i></i><i></i><i></i></div>
+          </div></div>
+          <div class="screen s3"><div class="fl">
+            <div class="hd"><p class="h5">Feed</p><img src="/projects/firstline/firstline-logo.webp" alt="" width="64" height="64" /></div>
+            <div class="post"><div class="who"><span class="av sm"></span><div><b>Priya, tax accountant</b><small>Recommended by 3 people you know</small></div></div><div class="img"></div><p>Five things to sort out before tax season, a quick thread.</p></div>
+            <div class="post"><div class="who"><span class="av sm" style="background:linear-gradient(135deg,#ffd9b3,#ffe9a8)"></span><div><b>Marcus, contractor</b><small>2h</small></div></div><p>Kitchen reno wrapped this week. Before and after in the replies.</p></div>
+            <div class="push"><img src="/projects/firstline/firstline-logo.webp" alt="" width="64" height="64" /><div><b>FirstLine</b>You have a new message</div></div>
+          </div></div>
+        </Device>
+      </div>
+      <div class="copy" data-build>
+        <p class="rank"><span class="place">#2</span> FirstLine</p>
+        <h2 class="h-m" id="fl-title">Find the right professional.<br /><span class="gel">The first time.</span></h2>
+        <p class="lede">{firstline.what}</p>
+        <dl class="specs">
+          {firstline.specs.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+        </dl>
+      </div>
+    </div>
+    <p class="slideno data" aria-hidden="true">02 / 08</p>
+  </div>
+
+  <!-- How it fits together: exploded, then assembled as you scroll -->
+  <div class="stage pin-stage arch" data-pin="fl-arch">
+    <div class="arch-grid wrap">
+      <div class="arch-copy">
+        <h3 class="h-m">One backend.<br /><span class="gel">Two apps.</span></h3>
+        <p class="lede">The website and the phone app share one backend. A message you send on your phone shows up on the web straight away, and the other way round.</p>
+        <ul class="feat">
+          {firstline.features.map((f) => <li>{f}</li>)}
+        </ul>
+      </div>
+      <figure class="iso-fig">
+        <svg viewBox="0 0 660 470" role="img" aria-labelledby="fl-arch-t fl-arch-d">
+          <title id="fl-arch-t">How FirstLine is built</title>
+          <desc id="fl-arch-d">A shared Supabase backend at the base supports two towers, the web app and the native app, joined by a realtime bridge for messages and notifications.</desc>
+          <defs>
+            <marker id="fl-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="currentColor" /></marker>
+          </defs>
+          <g class="piece p-base" data-piece>
+            <path d={base.top} class="f-top b" /><path d={base.left} class="f-l b" /><path d={base.right} class="f-r b" />
+          </g>
+          <g class="piece p-web" data-piece>
+            <path d={web.top} class="f-top w" /><path d={web.left} class="f-l w" /><path d={web.right} class="f-r w" />
+            <path d={webScreen} class="screen-face" /><path d={webSide} class="side-face" />
+          </g>
+          <g class="piece p-app" data-piece>
+            <path d={app.top} class="f-top a" /><path d={app.left} class="f-l a" /><path d={app.right} class="f-r a" />
+            <path d={appScreen} class="screen-face" />
+          </g>
+          <g class="piece p-bridge" data-piece>
+            <path d={bridge.top} class="f-top br" /><path d={bridge.left} class="f-l br" /><path d={bridge.right} class="f-r br" />
+          </g>
+          <g class="guides" aria-hidden="true">
+            <path class="guide" d={`M${web.topCenter.x} ${web.topCenter.y - 120} V${web.topCenter.y - 18}`} marker-end="url(#fl-arrow)" />
+            <path class="guide" d={`M${app.topCenter.x} ${app.topCenter.y - 110} V${app.topCenter.y - 18}`} marker-end="url(#fl-arrow)" />
+          </g>
+          <g class="labels">
+            <g class="lab" data-lab><line x1={lWeb.x} y1={lWeb.y} x2={lWeb.x - 70} y2={lWeb.y + 40} /><text x={lWeb.x - 76} y={lWeb.y + 46} text-anchor="end"><tspan class="lt">Web app</tspan><tspan x={lWeb.x - 76} dy="18">Next.js on Vercel</tspan></text></g>
+            <g class="lab" data-lab><line x1={lApp.x} y1={lApp.y} x2={lApp.x + 60} y2={lApp.y - 30} /><text x={lApp.x + 66} y={lApp.y - 34}><tspan class="lt">Phone app</tspan><tspan x={lApp.x + 66} dy="18">iOS and Android, Expo</tspan></text></g>
+            <g class="lab" data-lab><line x1={lBridge.x} y1={lBridge.y} x2={lBridge.x + 10} y2={lBridge.y - 70} /><text x={lBridge.x + 10} y={lBridge.y - 80} text-anchor="middle"><tspan class="lt">Live bridge</tspan><tspan x={lBridge.x + 10} dy="-36" class="sub">messages and notifications</tspan></text></g>
+            <g class="lab" data-lab><line x1={lBase.x} y1={lBase.y} x2={lBase.x + 40} y2={lBase.y + 30} /><text x={lBase.x + 46} y={lBase.y + 36}><tspan class="lt">One backend</tspan><tspan x={lBase.x + 46} dy="18">Supabase: database, sign-in, realtime</tspan></text></g>
+          </g>
+        </svg>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fl-wrap { min-height: 60vh; }
+  .tag { position: absolute; z-index: 3; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; white-space: nowrap; box-shadow: var(--shadow); }
+  .tag em { font-style: normal; color: var(--gel-ink); }
+  .t1 { left: 4%; top: 18%; } .t2 { right: 2%; bottom: 20%; }
+
+  .screen { position: absolute; inset: 0; }
+  .fl { position: absolute; inset: 0; padding: 5em 1.8em 1.8em; background: #f6f8fc; color: #0f1b2d; display: flex; flex-direction: column; gap: 1.1em; font-family: var(--display); }
+  .msgs { justify-content: flex-end; }
+  .hd { display: flex; align-items: center; justify-content: space-between; }
+  .hd.abs { position: absolute; top: 5em; left: 1.8em; right: 1.8em; }
+  .h5 { font-size: 2.1em; font-weight: 800; letter-spacing: -0.04em; }
+  .hd img { width: 3em; height: 3em; border-radius: 0.8em; }
+  .search { background: #fff; border: 1px solid #e1e6f0; border-radius: 1.2em; padding: 1em 1.2em; font-size: 1.2em; color: #6b7588; }
+  .chips { display: flex; gap: 0.5em; flex-wrap: wrap; }
+  .chip { font-size: 1.05em; font-weight: 600; padding: 0.45em 0.9em; border-radius: 2em; background: #fff; border: 1px solid #e1e6f0; }
+  .chip.on { background: #2563eb; color: #fff; border-color: transparent; }
+  .card { background: #fff; border-radius: 1.3em; padding: 1.1em; display: flex; gap: 1em; align-items: center; box-shadow: 0 0.2em 1em rgb(15 27 45 / 0.06); }
+  .av { width: 3.6em; height: 3.6em; border-radius: 50%; flex: none; background: linear-gradient(135deg, #bcd3ff, #b9ecd9); }
+  .av.sm { width: 2.8em; height: 2.8em; }
+  .card b, .who b { display: block; font-size: 1.2em; letter-spacing: -0.02em; }
+  .card small, .who small { font-size: 0.95em; color: #6b7588; }
+  .ok { margin-left: auto; font-size: 0.9em; font-weight: 700; color: #0e7490; background: #e0f7fb; border-radius: 2em; padding: 0.3em 0.7em; }
+  .bub { max-width: 78%; padding: 0.9em 1.1em; border-radius: 1.3em; font-size: 1.2em; line-height: 1.35; }
+  .bub.in { background: #fff; align-self: flex-start; border-bottom-left-radius: 0.3em; }
+  .bub.out { background: #2563eb; color: #fff; align-self: flex-end; border-bottom-right-radius: 0.3em; }
+  .typing { align-self: flex-start; background: #fff; border-radius: 1.3em; padding: 0.9em 1.1em; display: flex; gap: 0.3em; }
+  .typing i { width: 0.55em; height: 0.55em; border-radius: 50%; background: #aab4c5; animation: ty 1.2s infinite; }
+  .typing i:nth-child(2) { animation-delay: 0.2s; } .typing i:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes ty { 50% { transform: translateY(-0.3em); opacity: 0.5; } }
+  .post { background: #fff; border-radius: 1.3em; padding: 1.2em; display: grid; gap: 0.8em; font-size: 1.1em; }
+  .who { display: flex; gap: 0.8em; align-items: center; }
+  .post .img { height: 8em; border-radius: 1em; background: linear-gradient(135deg, #dbe7ff, #cff4fb); }
+  .push { position: absolute; left: 1.2em; right: 1.2em; top: 4.6em; background: rgb(255 255 255 / 0.94); border-radius: 1.4em; padding: 1em; display: flex; gap: 0.8em; align-items: center; box-shadow: 0 1em 2.4em rgb(15 27 45 / 0.18); font-size: 1.05em; }
+  .push img { width: 2.6em; height: 2.6em; border-radius: 0.6em; }
+  .push b { display: block; }
+
+  /* ---- exploded architecture ---- */
+  .arch { display: flex; align-items: center; }
+  .arch-grid { width: 100%; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: clamp(24px, 4vw, 72px); align-items: center; }
+  .arch-copy h3 { margin-bottom: 20px; }
+  .feat { list-style: none; margin-top: 26px; display: grid; gap: 0; border-top: 1px solid var(--line); max-width: 32em; }
+  .feat li { padding: 11px 0 11px 26px; border-bottom: 1px solid var(--line); font-size: 15px; position: relative; }
+  .feat li::before { content: ''; position: absolute; left: 2px; top: 18px; width: 10px; height: 10px; border-radius: 3px; background: var(--gel); transform: rotate(45deg) scale(0.7); }
+  .iso-fig svg { width: 100%; height: auto; overflow: visible; color: var(--gel-ink); }
+  .f-top, .f-l, .f-r { stroke: color-mix(in srgb, var(--fg) 70%, transparent); stroke-width: 1.2; stroke-linejoin: round; }
+  .f-top.b { fill: #e7edf8; } .f-l.b { fill: #c9d5ea; } .f-r.b { fill: #b3c3e0; }
+  .f-top.w { fill: #dbe7ff; } .f-l.w { fill: #93b4f6; } .f-r.w { fill: #6f99f0; }
+  .f-top.a { fill: #d5f6fb; } .f-l.a { fill: #67d3e6; } .f-r.a { fill: #2fbcd4; }
+  .f-top.br { fill: #fde68a; } .f-l.br { fill: #f8c74a; } .f-r.br { fill: #e9a823; }
+  .screen-face { fill: #ffffff; opacity: 0.85; }
+  .side-face { fill: #ffffff; opacity: 0.25; }
+  [data-theme='dark'] .f-top, [data-theme='dark'] .f-l, [data-theme='dark'] .f-r { stroke: rgb(255 255 255 / 0.55); }
+  .guide { stroke: currentColor; stroke-width: 1.5; stroke-dasharray: 5 6; fill: none; }
+  .lab line { stroke: var(--faint); stroke-width: 1; }
+  .lab text { font-family: var(--display); font-size: 13px; fill: var(--mute); }
+  .lab .lt { font-weight: 700; font-size: 15px; fill: var(--fg); }
+  .lab .sub { font-size: 12.5px; fill: var(--mute); }
+
+  @media (max-width: 900px) {
+    .fl-wrap { min-height: 0; }
+    .tag { display: none; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .arch { align-items: flex-start; padding-top: 84px; }
+  }
+</style>

@@ -1,0 +1,239 @@
+---
+import Device from '../Device.astro';
+import Icon from '../Icon.astro';
+import { hublii } from '../../data/site';
+import { slab, iso } from '../../lib/iso';
+
+const tour = [
+  { q: "What's happening?", a: 'The business sees every client, project and update at a glance.', src: '/projects/hublii/app-dashboard.webp', alt: 'hublii business dashboard: what needs you, money coming in, projects and recent activity.' },
+  { q: 'What do I need to do?', a: 'Clients get a portal that says exactly what they need to do, and when.', src: '/projects/hublii/app-portal-project.webp', alt: "A client's hublii portal: needs-you items, payments and the project path." },
+  { q: 'Where are my things?', a: 'Every file in one place, scanned for malware and easy to find.', src: '/projects/hublii/app-portal-files.webp', alt: 'hublii files view with folders shared between a business and its client.' },
+  { q: 'What happens next?', a: 'Messages, notifications and invoices keep both sides in step.', src: '/projects/hublii/app-portal-messages.webp', alt: 'hublii messages between a landscaping business and its client.' },
+];
+
+// Exploded stack: four layers of hublii, assembled as you scroll.
+const U = 26, OX = 230, OY = 300;
+const layers = [
+  { name: 'The app', sub: 'Next.js 16 and React 19, on Vercel', cls: 'l4' },
+  { name: 'Sign-in and API', sub: 'AWS Cognito, 2FA, Lambda', cls: 'l3' },
+  { name: 'Files, kept safe', sub: 'S3 with GuardDuty malware scanning', cls: 'l2' },
+  { name: 'The data', sub: 'Aurora PostgreSQL, serverless', cls: 'l1' },
+].map((l, i, arr) => {
+  const level = arr.length - 1 - i; // 0 = bottom
+  const s = slab(0, 0, level * 2.1, 7, 5, 0.75, U, OX, OY);
+  const a = iso(7, 0, level * 2.1 + 0.75, U, OX, OY);
+  return { ...l, level, s, a };
+});
+---
+<section class="chapter" id="hublii" data-chapter="hublii" data-gel="hublii" aria-labelledby="hb-title">
+  <!-- One more thing… -->
+  <div class="stage pin-stage omt" data-pin="omt">
+    <div class="glow" data-omt-glow aria-hidden="true"></div>
+    <p class="omt-line" data-omt-line aria-hidden="true"><span>One</span> <span>more</span> <span>thing</span><span class="ell">…</span></p>
+    <div class="reveal" data-omt-reveal>
+      <h2 class="wordmark" id="hb-title"><img src="/projects/hublii/tidy-stack.svg" alt="" width="120" height="120" />hublii</h2>
+      <p class="tag1">One calm place for you and your clients: <em>what's happening, what's next, and where everything is.</em></p>
+      <a class="cta" href={hublii.url} target="_blank" rel="noopener">Join the waitlist <span class="data">hublii.com</span><Icon name="arrow-ur" size={16} /></a>
+      <p class="data status">Not launched yet. The waitlist is live.</p>
+    </div>
+    <p class="slideno data" aria-hidden="true">04 / 08</p>
+  </div>
+
+  <!-- The four questions, answered on screen -->
+  <div class="stage pin-stage tourstage" data-pin="tour">
+    <span class="cue" style="left:6%;top:14%">Note: everything on screen is sample data</span>
+    <div class="tour wrap">
+      <div class="tour-copy">
+        <h3 class="h-m">Calm, <span class="gel">for service businesses.</span></h3>
+        <p class="lede">{hublii.what}</p>
+        <ol class="qs">
+          {tour.map((t, i) => (
+            <li data-q={i} class={i === 0 ? 'on' : ''}><b>{t.q}</b><span>{t.a}</span></li>
+          ))}
+        </ol>
+      </div>
+      <div class="tour-device">
+        <Device kind="laptop" class="hub-laptop">
+          {tour.map((t, i) => (
+            <img class="tour-shot" data-shot={i} src={t.src} alt={t.alt} width="1440" height="835" loading={i ? 'lazy' : 'eager'} decoding="async" />
+          ))}
+        </Device>
+      </div>
+    </div>
+  </div>
+
+  <!-- What it does -->
+  <div class="stage features">
+    <div class="wrap">
+      <h3 class="h-l rv">Built for the work<br /><span class="gel">between the work.</span></h3>
+      <ul class="feature-list">
+        {hublii.features.map((f) => (
+          <li class="rv"><b>{f.title}</b><p>{f.body}</p></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- How it's built: the exploded stack -->
+  <div class="stage pin-stage stack" data-pin="stack">
+    <div class="stack-grid wrap">
+      <figure class="iso-fig">
+        <svg viewBox="0 0 640 480" role="img" aria-labelledby="hb-stack-t hb-stack-d">
+          <title id="hb-stack-t">How hublii is built</title>
+          <desc id="hb-stack-d">Four layers stacked like hublii's logo: the data in Aurora PostgreSQL, files in S3 with malware scanning, sign-in and API on Cognito and Lambda, and the Next.js app on Vercel on top.</desc>
+          {layers.map((l) => (
+            <g class={`layer ${l.cls}`} data-layer={l.level}>
+              <path d={l.s.top} class="f-top" /><path d={l.s.left} class="f-l" /><path d={l.s.right} class="f-r" />
+              <g class="lab">
+                <line x1={l.a.x} y1={l.a.y + 6} x2={l.a.x + 56} y2={l.a.y + 6} />
+                <circle cx={l.a.x} cy={l.a.y + 6} r="3" />
+                <text x={l.a.x + 64} y={l.a.y + 2}><tspan class="lt">{l.name}</tspan><tspan x={l.a.x + 64} dy="18">{l.sub}</tspan></text>
+              </g>
+            </g>
+          ))}
+        </svg>
+      </figure>
+      <div class="stack-copy">
+        <h3 class="h-m">Four layers.<br /><span class="gel">One calm product.</span></h3>
+        <p class="lede">Stacked like its logo. The AWS side is defined in code with the CDK, with a written runbook, workspaces strictly isolated from one another, and restore drills that have been run end to end.</p>
+        <ul class="chips">
+          {hublii.stack.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- By the numbers, said as a sentence -->
+  <div class="stage numbers">
+    <p class="say wrap" data-numbers>
+      {hublii.stats.map((s, i) => (
+        <>
+          <span class="n" data-to={s.value} data-suf={s.suffix}>{s.value.toLocaleString('en-US')}{s.suffix}</span>
+          <span class="w"> {s.label}{i < hublii.stats.length - 2 ? ', ' : i === hublii.stats.length - 2 ? ', and ' : '.'}</span>
+        </>
+      ))}
+    </p>
+
+    <div class="crew wrap">
+      <div class="rv">
+        <h3 class="h-m">I design it. I architect it.<br /><span class="gel">A crew builds it with me.</span></h3>
+        <p class="lede">I direct AI engineering agents, <b>Codex and Claude</b>, through the build. I make the product, design and architecture calls, and I approve what ships. The pace comes from that team. I'm proud of what we've made, and I know I didn't make it alone.</p>
+      </div>
+      <figure class="yumi rv">
+        <img class="yumi-day" src="/projects/hublii/caught-up.webp" alt="Yumi the otter floating on its back, holding a little sign." width="640" height="640" loading="lazy" data-yumi />
+        <img class="yumi-night" src="/projects/hublii/caught-up-evening.webp" alt="" width="640" height="640" loading="lazy" />
+        <figcaption><b>Meet Yumi.</b> hublii's otter, drawn by me. Yumi floats by when you're all caught up.</figcaption>
+      </figure>
+    </div>
+
+    <div class="phones wrap rv">
+      <div class="phone-shot">
+        <Device kind="phone"><img src="/projects/hublii/app-portal-phone.webp" alt="hublii's client portal on a phone." width="780" height="1515" loading="lazy" /></Device>
+      </div>
+      <div class="site-shot">
+        <Device kind="browser" url="hublii.com"><img src="/projects/hublii/site-hero.webp" alt="The hublii.com waitlist page." width="1440" height="900" loading="lazy" /></Device>
+        <p class="lede">The waitlist at <a href={hublii.url} target="_blank" rel="noopener">hublii.com</a> is open now. Billing is next on the bench, then launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---- one more thing ---- */
+  .omt { display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; overflow: hidden !important; }
+  .glow { position: absolute; inset: -20%; pointer-events: none; opacity: 0;
+    background: radial-gradient(ellipse 50% 45% at 50% 56%, color-mix(in srgb, #5e7a4e 42%, transparent), color-mix(in srgb, #d9a441 12%, transparent) 50%, transparent 72%); }
+  :global([data-theme='light']) .glow { background: radial-gradient(ellipse 55% 50% at 50% 55%, #f4efe6, color-mix(in srgb, #a9c394 30%, transparent) 50%, transparent 74%); }
+  .omt-line { font-weight: 700; font-stretch: 108%; letter-spacing: -0.04em; font-size: clamp(2.6rem, 7vw, 6rem); line-height: 1; }
+  .omt-line span { display: inline-block; }
+  .ell { color: var(--gel-ink); }
+  .reveal { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 var(--gutter); gap: clamp(14px, 2.4vh, 26px); }
+  .wordmark { display: flex; align-items: center; gap: 0.2em; font-family: var(--brand); font-weight: 900; font-size: clamp(5rem, 15vw, 14rem); letter-spacing: -0.04em; line-height: 0.9; color: #2b2a27; }
+  :global([data-theme='dark']) .wordmark { color: #f4efe6; }
+  .wordmark img { width: 0.84em; height: 0.84em; }
+  .tag1 { font-size: clamp(1.15rem, 2vw, 1.85rem); font-weight: 600; letter-spacing: -0.02em; max-width: 26em; line-height: 1.25; text-wrap: balance; }
+  .tag1 em { font-style: normal; color: var(--gel-ink); }
+  .cta { display: inline-flex; align-items: center; gap: 12px; background: #5e7a4e; color: #fff; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 15px 22px 15px 24px;
+    box-shadow: 0 10px 30px -10px rgb(70 96 58 / 0.7); transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), background-color 0.25s; }
+  .cta:hover { transform: translateY(-2px); background: #46603a; box-shadow: 0 18px 44px -12px rgb(70 96 58 / 0.85); }
+  .cta:active { transform: translateY(0) scale(0.98); }
+  .cta .data { color: rgb(255 255 255 / 0.8); }
+  .status { color: var(--mute); }
+
+  /* ---- tour ---- */
+  .tourstage { display: flex; align-items: center; }
+  .tour { width: 100%; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 70px); align-items: center; }
+  .tour-copy h3 { margin-bottom: 18px; }
+  .qs { list-style: none; margin-top: 26px; display: grid; gap: 4px; }
+  .qs li { padding: 12px 0 12px 18px; position: relative; color: var(--faint); transition: color 0.4s; }
+  .qs li::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--line-strong); transition: background-color 0.4s; }
+  .qs li b { display: block; font-weight: 750; font-stretch: 108%; letter-spacing: -0.02em; font-size: clamp(1.1rem, 1.6vw, 1.4rem); }
+  .qs li { display: grid; grid-template-rows: auto 0fr; transition: color 0.4s, grid-template-rows 0.5s var(--ease-out); }
+  .qs li span { display: block; font-size: 15px; min-height: 0; overflow: hidden; opacity: 0; transition: opacity 0.4s; }
+  .qs li.on { color: var(--fg); }
+  .qs li.on::before { background: var(--gel); }
+  .qs li.on { grid-template-rows: auto 1fr; }
+  .qs li.on span { opacity: 1; color: var(--mute); margin-top: 4px; }
+  .tour-device :global(.hub-laptop) { font-size: clamp(5px, 0.84vw, 12.2px); margin-inline: auto; }
+  .tour-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: 0; }
+  .tour-shot[data-shot='0'] { opacity: 1; }
+
+  /* ---- features ---- */
+  .features { min-height: 0; }
+  .feature-list { list-style: none; margin-top: clamp(36px, 7vh, 72px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vh, 48px) clamp(24px, 3.4vw, 56px); }
+  .feature-list li { padding-top: 18px; border-top: 2px solid var(--fg); }
+  .feature-list li:nth-child(3n + 2) { border-top-color: var(--gel); }
+  .feature-list b { display: block; font-weight: 800; font-stretch: 110%; letter-spacing: -0.03em; font-size: clamp(1.25rem, 1.9vw, 1.7rem); line-height: 1.05; margin-bottom: 10px; }
+  .feature-list p { color: var(--mute); font-size: 15.5px; max-width: 26em; }
+
+  /* ---- exploded stack ---- */
+  .stack { display: flex; align-items: center; }
+  .stack-grid { width: 100%; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 4fr); gap: clamp(24px, 4vw, 70px); align-items: center; }
+  .stack-copy h3 { margin-bottom: 18px; }
+  .iso-fig svg { width: 100%; height: auto; overflow: visible; }
+  .f-top, .f-l, .f-r { stroke: #2b2a27; stroke-width: 1.2; stroke-linejoin: round; }
+  :global([data-theme='dark']) .f-top, :global([data-theme='dark']) .f-l, :global([data-theme='dark']) .f-r { stroke: rgb(244 239 230 / 0.6); }
+  .l4 .f-top { fill: #fbf8f2; } .l4 .f-l { fill: #e3dbcd; } .l4 .f-r { fill: #cfc4b0; }
+  .l3 .f-top { fill: #a9c6d3; } .l3 .f-l { fill: #6f9db1; } .l3 .f-r { fill: #5b8ba0; }
+  .l2 .f-top { fill: #f2cf86; } .l2 .f-l { fill: #e2b358; } .l2 .f-r { fill: #d9a441; }
+  .l1 .f-top { fill: #9db88c; } .l1 .f-l { fill: #6f8c5d; } .l1 .f-r { fill: #5e7a4e; }
+  .lab line { stroke: var(--faint); stroke-width: 1; }
+  .lab circle { fill: var(--gel-ink); }
+  .lab text { font-family: var(--display); font-size: 13px; fill: var(--mute); }
+  .lab .lt { font-weight: 700; font-size: 15px; fill: var(--fg); }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .chips li { font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--panel) 70%, transparent); }
+
+  /* ---- numbers ---- */
+  .numbers { min-height: 0; padding-top: clamp(60px, 12vh, 140px); }
+  .say { font-weight: 750; font-stretch: 108%; letter-spacing: -0.035em; line-height: 1.02; font-size: clamp(2rem, 5.4vw, 4.6rem); text-wrap: balance; }
+  .say .n { color: var(--gel-ink); font-weight: 900; font-stretch: 118%; font-variant-numeric: tabular-nums; }
+  .say .w { color: var(--fg); }
+
+  .crew { margin-top: clamp(70px, 14vh, 160px); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(30px, 6vw, 90px); align-items: center; }
+  .crew h3 { margin-bottom: 18px; }
+  .yumi { position: relative; border-radius: 32px; padding: clamp(24px, 3.6vw, 44px); text-align: center; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #a9c394 40%, transparent), transparent 70%), #f4efe6; color: #2b2a27; }
+  :global([data-theme='dark']) .yumi { background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #5e7a4e 45%, transparent), transparent 70%), #2a241f; color: #f5e6d3; }
+  .yumi img { width: min(300px, 80%); margin: 0 auto 12px; filter: drop-shadow(0 18px 26px rgb(43 42 39 / 0.25)); }
+  .yumi-night { display: none; }
+  :global([data-theme='dark']) .yumi-day { display: none; }
+  :global([data-theme='dark']) .yumi-night { display: block; }
+  .yumi figcaption { font-size: 15.5px; line-height: 1.5; max-width: 22em; margin: 0 auto; }
+  .yumi figcaption b { font-family: var(--brand); font-weight: 900; font-size: 1.5em; letter-spacing: -0.02em; display: block; margin-bottom: 4px; }
+
+  .phones { margin-top: clamp(70px, 14vh, 150px); display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; padding-bottom: clamp(40px, 10vh, 120px); }
+  .phone-shot :global(.phone) { font-size: clamp(6px, 0.72vw, 10px); }
+  .phone-shot img, .site-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .site-shot :global(.browser) { font-size: clamp(5px, 0.7vw, 10px); width: 100%; }
+  .site-shot .lede { margin-top: 20px; }
+
+  @media (max-width: 900px) {
+    .tour, .stack-grid, .crew, .phones { grid-template-columns: 1fr; }
+    .tourstage, .stack { align-items: flex-start; padding-top: 84px; }
+    .feature-list { grid-template-columns: 1fr; }
+    .tour-device :global(.hub-laptop) { font-size: 1.32vw; }
+    .phones { justify-items: center; }
+  }
+  @media (min-width: 901px) and (max-width: 1150px) { .feature-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>
