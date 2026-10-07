@@ -152,6 +152,11 @@ button { font: inherit; color: inherit; }
     radial-gradient(80% 40% at 50% 112%, color-mix(in srgb, var(--gel) calc(var(--wash) * 55%), transparent), transparent 70%);
 }
 
+/* Silk: the same wash, alive (silk.ts). It replaces the rig once WebGL is running. */
+.silk { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.4s var(--ease-in-out); }
+.silk-on .silk { opacity: 1; }
+.silk-on .rig { opacity: 0; transition: opacity 1.4s var(--ease-in-out); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
