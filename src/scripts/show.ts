@@ -2,6 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { light } from './spotlight';
+import { initHeroTransition, initHandoffs } from './transitions';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -50,14 +51,11 @@ function choreograph() {
   const reveal = (targets: gsap.TweenTarget, trigger: Element | string) =>
     gsap.from(targets, { y: 48, opacity: 0, stagger: 0.08, duration: 1, ease: 'expo.out', scrollTrigger: { trigger, start: 'top 68%', toggleActions: 'play none none reverse' } });
 
-  // Opening: the name pulls back into the dark as the show begins.
-  gsap.fromTo('[data-hero-inner]', { yPercent: 0, opacity: 1 }, {
-    yPercent: -8, opacity: 0, ease: 'none', immediateRender: false,
-    scrollTrigger: { trigger: '#opening', start: 'top top', end: 'bottom 25%', scrub: true },
-  });
+  // Opening: the name explodes and the camera pushes through the portrait into chapter one.
+  initHeroTransition();
 
   // 01 · MasHoorCake: tiers drop in, the frosting cycles, then the whole site flips to Persian.
-  reveal('#mashoorcake [data-build] > *', '#mashoorcake');
+  reveal('#mashoorcake [data-build] > :not(h2)', '#mashoorcake');
   gsap.from('[data-mc-laptop]', { yPercent: 24, scale: 0.84, rotateX: 18, opacity: 0, transformPerspective: 1400, ease: 'none',
     scrollTrigger: { trigger: '#mashoorcake', start: 'top bottom', end: 'top top', scrub: true } });
   const frosts = ['#F6C9D0', '#FFF1D6', '#CFE3C4', '#D9C8F0'];
@@ -87,7 +85,7 @@ function choreograph() {
   });
 
   // 02 · FirstLine: the phone cycles directory → messages → feed with a live push.
-  reveal('#firstline [data-build] > *', '#firstline');
+  reveal('#firstline [data-build] > :not(h2)', '#firstline');
   gsap.set('[data-fl-phone] .s2, [data-fl-phone] .s3', { opacity: 0 });
   gsap.from('[data-fl-phone]', { yPercent: 40, rotate: -12, rotateY: -22, transformPerspective: 1200, opacity: 0, ease: 'none',
     scrollTrigger: { trigger: '#firstline', start: 'top bottom', end: 'top top', scrub: true } });
@@ -103,10 +101,10 @@ function choreograph() {
 
   // 02b · FirstLine, exploded: the pieces drop along their guides and click into place.
   const arch = gsap.timeline({ scrollTrigger: { trigger: '[data-pin="fl-arch"]', start: 'top top', end: '+=170%', pin: true, scrub: 0.9 } });
-  arch.from('.arch-copy > *', { y: 40, opacity: 0, stagger: 0.1, duration: 0.4 })
+  arch.from('.arch-copy > :not(h3)', { y: 40, opacity: 0, stagger: 0.1, duration: 0.4 })
     .from('.p-base', { y: 80, opacity: 0, duration: 0.45, ease: 'power2.out' }, 0.1)
     .from('.p-web', { y: -160, opacity: 0, duration: 0.5, ease: 'back.out(1.6)' })
-    .from('.p-app', { y: -170, opacity: 0, duration: 0.5, ease: 'back.out(1.6)' }, '-=0.2')
+    .to({}, { duration: 0.3 }) // the phone tower arrives by handoff from the FirstLine phone
     .to('.guides', { opacity: 0, duration: 0.2 })
     .from('.p-bridge', { scaleX: 0, transformOrigin: '0% 50%', opacity: 0, duration: 0.45, ease: 'power3.out' })
     .from('#firstline .lab', { opacity: 0, x: -10, stagger: 0.1, duration: 0.3 })
@@ -138,7 +136,6 @@ function choreograph() {
   omt.from('[data-omt-line] span', { opacity: 0, y: 26, filter: 'blur(8px)', stagger: 0.25, duration: 0.4 })
     .to({}, { duration: 0.5 })
     .to('[data-omt-line]', { scale: 0.82, opacity: 0, filter: 'blur(10px)', duration: 0.5 })
-    .to('[data-omt-glow]', { opacity: 1, duration: 0.7 }, '<0.1')
     .to('[data-omt-reveal] .wordmark', { opacity: 1, y: 0, duration: 0.01 }, '<')
     .fromTo('[data-omt-reveal] .wordmark', { scale: 1.3, filter: 'blur(14px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8 }, '<')
     .to(light, { boost: 1, duration: 0.6 }, '<')
@@ -162,12 +159,12 @@ function choreograph() {
     } });
 
   // Features and slides land as they arrive.
-  $$('.rv').forEach((el) => gsap.from(el, { y: 56, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 86%' } }));
+  $$('.rv').filter((el) => !el.matches('h2, h3')).forEach((el) => gsap.from(el, { y: 56, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 86%' } }));
 
   // 04c · The stack: exploded, then pressed together like the logo.
   const layers = $$<SVGGElement>('[data-layer]');
   const st = gsap.timeline({ scrollTrigger: { trigger: '[data-pin="stack"]', start: 'top top', end: '+=160%', pin: true, scrub: 0.9 } });
-  st.from('.stack-copy > *', { y: 40, opacity: 0, stagger: 0.1, duration: 0.4 }, 0);
+  st.from('.stack-copy > :not(h3)', { y: 40, opacity: 0, stagger: 0.1, duration: 0.4 }, 0);
   layers.forEach((g) => {
     const lv = Number(g.dataset.layer);
     st.from(g, { y: -70 - lv * 46, opacity: 0, duration: 0.6, ease: 'power3.out' }, 0.15 + (3 - lv) * 0.12);
@@ -212,6 +209,9 @@ function choreograph() {
   gsap.fromTo('[data-curtains] i:first-child', { xPercent: 0 }, { xPercent: -100, ease: 'none', scrollTrigger: { trigger: '#curtain-call', start: 'top 85%', end: 'top 15%', scrub: true } });
   gsap.fromTo('[data-curtains] i:last-child', { xPercent: 0 }, { xPercent: 100, ease: 'none', scrollTrigger: { trigger: '#curtain-call', start: 'top 85%', end: 'top 15%', scrub: true } });
   gsap.to(light, { cboost: 0.6, ease: 'none', scrollTrigger: { trigger: '#curtain-call', start: 'top 60%', end: 'top top', scrub: true } });
+
+  // Shared-element handoffs and word reveals, created after every pin so their positions are right.
+  initHandoffs();
 }
 
 /** Without motion: every slide shows its finished state. */

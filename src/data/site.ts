@@ -119,6 +119,20 @@ export const pawmetric = {
   timeline: '2025 – now',
 } as const;
 
+/** The hero's self-typing line: a mix of true things and fun things. */
+export const heroLines = [
+  'Wait, where am I? 👀',
+  'Computer Engineer 🎓',
+  'It took way too long to build this 😮‍💨',
+  'Anyone tryna buy me sushi? 🍣',
+  'Inventor in progress 💡',
+  'Currently building hublii 🦦',
+  'Turning ideas into real things ✨',
+  'Professional bug creator 🐛 and fixer 🔧',
+  'Toronto, Canada 🇨🇦',
+  'Scroll down, the show is about to start 🎬',
+];
+
 export const goals = [
   'Launch hublii.',
   'Build my own products.',

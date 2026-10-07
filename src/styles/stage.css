@@ -11,6 +11,15 @@
 :root:not([data-theme='dark']) .cue { display: none; }
 @media (max-width: 720px) { .cue { display: none; } }
 
+/* Shared-element handoff layer and the opening iris (driven by transitions.ts). */
+.handoff { position: fixed; inset: 0; z-index: 45; pointer-events: none; opacity: 0; clip-path: inset(50%); will-change: clip-path; }
+.iris { position: fixed; inset: 0; z-index: 44; pointer-events: none; opacity: 0; clip-path: circle(0% at 50% 34%);
+  background: radial-gradient(120% 90% at 50% 34%, color-mix(in srgb, #c8566c 26%, var(--bg)), color-mix(in srgb, #6fbfae 14%, var(--bg)) 60%, var(--bg)); }
+/* Word masks for rising headings. */
+.wm { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.wi { display: inline-block; transform-origin: 0 100%; }
+#opening-title .ch { display: inline-block; will-change: transform; }
+
 /* Slide number, bottom right, like a presenter's slide counter. */
 .slideno { position: absolute; right: var(--gutter); bottom: 22px; color: var(--faint); }
 

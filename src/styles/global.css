@@ -59,14 +59,14 @@
 :root[data-gel='mashoor'] { --gel: #c8566c; --gel-2: #6fbfae; --gel-ink: #9a3a50; }
 :root[data-gel='firstline'] { --gel: #2563eb; --gel-2: #06b6d4; --gel-ink: #1d4ed8; }
 :root[data-gel='podium'] { --gel: #d9a441; --gel-2: #c0c4cc; --gel-ink: #8a5a08; }
-:root[data-gel='hublii'] { --gel: #5e7a4e; --gel-2: #d9a441; --gel-ink: #46603a; }
+:root[data-gel='hublii'] { --gel: #d8963a; --gel-2: #f3b46e; --gel-ink: #774a10; }
 :root[data-gel='dev'] { --gel: #8a6fd0; --gel-2: #e9b949; --gel-ink: #6f55a8; }
 :root[data-gel='bethesda'] { --gel: #e89a2a; --gel-2: #4a2c1e; --gel-ink: #9a5a0c; }
 :root[data-gel='backstage'] { --gel: #d9862b; --gel-2: #c8566c; --gel-ink: #8a4a08; }
 :root[data-theme='dark'][data-gel='mashoor'] { --gel-ink: #f08ca0; }
 :root[data-theme='dark'][data-gel='firstline'] { --gel-ink: #60a5fa; }
 :root[data-theme='dark'][data-gel='podium'] { --gel-ink: #f2c46b; }
-:root[data-theme='dark'][data-gel='hublii'] { --gel-ink: #a9c394; }
+:root[data-theme='dark'][data-gel='hublii'] { --gel: #e8b967; --gel-ink: #f0cb85; }
 :root[data-theme='dark'][data-gel='dev'] { --gel-ink: #b9a5f0; }
 :root[data-theme='dark'][data-gel='bethesda'] { --gel-ink: #f5b041; }
 :root[data-theme='dark'],
