@@ -1,0 +1,55 @@
+/* Shared keynote grammar used by every chapter. */
+
+/* Presenter notes: hidden ink, readable only inside the follow-spot (dark mode). */
+.cue {
+  position: absolute; z-index: 2; pointer-events: none;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gel-ink);
+  -webkit-mask-image: radial-gradient(circle 180px at var(--lx, -999px) var(--ly, -999px), #000 20%, transparent 100%);
+  mask-image: radial-gradient(circle 180px at var(--lx, -999px) var(--ly, -999px), #000 20%, transparent 100%);
+}
+.cue::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: currentColor; vertical-align: 1px; }
+:root:not([data-theme='dark']) .cue { display: none; }
+@media (max-width: 720px) { .cue { display: none; } }
+
+/* Slide number, bottom right, like a presenter's slide counter. */
+.slideno { position: absolute; right: var(--gutter); bottom: 22px; color: var(--faint); }
+
+/* Product slides */
+.product .stage { display: flex; flex-direction: column; justify-content: center; }
+.split { width: 100%; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4.5vw, 80px); align-items: center; }
+.split.rev { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.split.rev .copy { order: 2; }
+/* Honest labelling for mocked-up screens. */
+.sample { position: absolute; z-index: 2; left: 50%; bottom: -30px; transform: translateX(-50%); white-space: nowrap; color: var(--mute); }
+.copy h2 { margin-bottom: 22px; }
+.specs { margin-top: 28px; border-top: 1px solid var(--line); max-width: 34em; }
+.specs div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+.specs dt { color: var(--mute); }
+.specs dd { color: var(--fg); font-weight: 600; text-align: right; }
+.device-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+
+/* The reel: real screenshots, rolling past like a showreel. */
+.reel { padding: clamp(40px, 8vh, 96px) var(--gutter) clamp(60px, 12vh, 140px); max-width: none; overflow: hidden; }
+.reel > h3 { max-width: var(--max); margin: 0 auto clamp(26px, 5vh, 48px); }
+.reel-track { display: flex; gap: clamp(18px, 2.4vw, 36px); align-items: flex-end; width: max-content; padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2)); }
+.shot { flex: none; width: clamp(300px, 44vw, 720px); }
+.shot.is-mobile { width: auto; }
+.shot.is-mobile .phone { font-size: clamp(5.5px, 0.66vw, 9px); }
+.shot .browser { font-size: clamp(4.6px, 0.5vw, 8.6px); width: 100%; }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.shot figcaption { margin-top: 14px; font-size: 14px; color: var(--mute); max-width: 40em; }
+
+@media (max-width: 900px) {
+  .split, .split.rev { grid-template-columns: 1fr; gap: 26px; }
+  .split.rev .copy { order: 0; }
+  .product .stage { justify-content: flex-start; padding-top: 84px; }
+  .copy h2 { margin-bottom: 12px; }
+  .product .lede { font-size: 15.5px; }
+  .specs { margin-top: 14px; }
+  .specs div { padding: 8px 0; font-size: 13px; }
+  .pin-stage { height: auto; min-height: 100svh; overflow: visible; }
+  .reel-track { width: auto; flex-direction: column; align-items: stretch; padding-inline: 0; }
+  .shot, .shot.is-mobile { width: 100%; }
+  .shot.is-mobile { display: flex; flex-direction: column; align-items: center; }
+  .shot .browser { font-size: 1.2vw; }
+}

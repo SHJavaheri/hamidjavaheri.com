@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PresenterBar from '../components/PresenterBar.astro';
+import Spotlight from '../components/Spotlight.astro';
+import Opening from '../components/chapters/Opening.astro';
+import MasHoorCake from '../components/chapters/MasHoorCake.astro';
+import FirstLine from '../components/chapters/FirstLine.astro';
+import Podium from '../components/chapters/Podium.astro';
+import Hublii from '../components/chapters/Hublii.astro';
+import InDevelopment from '../components/chapters/InDevelopment.astro';
+import Encore from '../components/chapters/Encore.astro';
+import Backstage from '../components/chapters/Backstage.astro';
+import CurtainCall from '../components/chapters/CurtainCall.astro';
+import '../styles/stage.css';
+---
+<Base>
+  <PresenterBar />
+  <Spotlight />
+  <main id="main">
+    <Opening />
+    <MasHoorCake />
+    <FirstLine />
+    <Podium />
+    <Hublii />
+    <InDevelopment />
+    <Encore />
+    <Backstage />
+    <CurtainCall />
+  </main>
+</Base>
+
+<script>
+  import { initTheme, initAudio } from '../scripts/controls';
+  import { initSpotlight } from '../scripts/spotlight';
+  import { initShow } from '../scripts/show';
+  initTheme();
+  initAudio();
+  initSpotlight();
+  initShow();
+</script>

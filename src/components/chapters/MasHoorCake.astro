@@ -1,0 +1,115 @@
+---
+import Device from '../Device.astro';
+import { mashoorcake } from '../../data/site';
+import { shots } from '../../data/shots';
+const gallery = shots.mashoorcake;
+---
+<section class="chapter product" id="mashoorcake" data-chapter="mashoorcake" data-gel="mashoor" aria-labelledby="mc-title">
+  <div class="stage pin-stage" data-pin="mc">
+    <div class="split wrap">
+      <div class="copy" data-build>
+        <h2 class="h-m" id="mc-title">Design the cake.<br /><span class="gel">Send it to the baker.</span></h2>
+        <p class="lede">{mashoorcake.what}</p>
+        <dl class="specs">
+          {mashoorcake.specs.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+        </dl>
+      </div>
+
+      <div class="device-wrap">
+        <span class="cue" style="left:4%;top:-4%">Note: the right-to-left flip gets a gasp</span>
+        <Device kind="laptop" data-mc-laptop>
+          <div class="mc" data-mc="en" dir="ltr" lang="en">
+            <div class="top"><div class="logo">MasHoorCake<small>Custom cakes</small></div><div class="lang"><span class="on">EN</span><span>فا</span></div></div>
+            <div class="body">
+              <div>
+                <p class="h4">Build your cake</p>
+                <p class="s">Pick tiers, flavour and colour.</p>
+                <div class="row"><span class="lab">Tiers</span><div class="opts"><span class="opt">1</span><span class="opt">2</span><span class="opt on">3</span></div></div>
+                <div class="row"><span class="lab">Flavour</span><div class="opts"><span class="opt on">Vanilla</span><span class="opt">Chocolate</span><span class="opt">Pistachio</span></div></div>
+                <div class="row"><span class="lab">Frosting</span><div class="opts sws"><span class="sw on" style="background:#F6C9D0"></span><span class="sw" style="background:#FFF1D6"></span><span class="sw" style="background:#CFE3C4"></span><span class="sw" style="background:#D9C8F0"></span></div></div>
+                <span class="send">Send to the baker</span>
+              </div>
+              <div class="preview">
+                <svg viewBox="0 0 200 190" class="cake" aria-hidden="true">
+                  <ellipse cx="100" cy="176" rx="86" ry="9" fill="#ead6cc" />
+                  <g class="t1"><rect x="34" y="124" width="132" height="50" rx="7" fill="var(--frost,#F6C9D0)" /><path d="M34 134 q8 12 16 0 q8 12 16 0 q8 12 16 0 q8 12 16 0 q8 12 16 0 q8 12 16 0 q8 12 16 0 q8 12 18 0 V128 a7 7 0 0 0 -7 -4 H41 a7 7 0 0 0 -7 4z" fill="#fff" opacity=".85" /><circle cx="60" cy="156" r="3" fill="#8B3A4A" opacity=".5" /><circle cx="100" cy="156" r="3" fill="#8B3A4A" opacity=".5" /><circle cx="140" cy="156" r="3" fill="#8B3A4A" opacity=".5" /></g>
+                  <g class="t2"><rect x="52" y="82" width="96" height="44" rx="7" fill="var(--frost,#F6C9D0)" /><path d="M52 92 q8 11 16 0 q8 11 16 0 q8 11 16 0 q8 11 16 0 q8 11 16 0 q8 11 16 0 V86 a7 7 0 0 0 -7 -4 H59 a7 7 0 0 0 -7 4z" fill="#fff" opacity=".85" /></g>
+                  <g class="t3"><rect x="70" y="46" width="60" height="38" rx="7" fill="var(--frost,#F6C9D0)" /><path d="M70 56 q7.5 10 15 0 q7.5 10 15 0 q7.5 10 15 0 q7.5 10 15 0 V50 a7 7 0 0 0 -7 -4 H77 a7 7 0 0 0 -7 4z" fill="#fff" opacity=".85" /></g>
+                  <g class="topper"><rect x="97" y="22" width="6" height="24" rx="2" fill="#8B3A4A" /><path d="M100 10 c5 6 4 11 0 12 c-4 -1 -5 -6 0 -12z" fill="#FFB547" /></g>
+                </svg>
+                <div class="toast">Exact request sent to the baker</div>
+              </div>
+            </div>
+          </div>
+          <div class="mc" data-mc="fa" dir="rtl" lang="fa" aria-hidden="true">
+            <div class="top"><div class="logo">مشهور کیک<small>کیک سفارشی</small></div><div class="lang"><span>EN</span><span class="on">فا</span></div></div>
+            <div class="body">
+              <div>
+                <p class="h4">کیکت را بساز</p>
+                <p class="s">طبقه، طعم و رنگ را انتخاب کن</p>
+                <div class="row"><span class="lab">طبقه‌ها</span><div class="opts"><span class="opt">۱</span><span class="opt">۲</span><span class="opt on">۳</span></div></div>
+                <div class="row"><span class="lab">طعم</span><div class="opts"><span class="opt on">وانیل</span><span class="opt">شکلات</span><span class="opt">پسته</span></div></div>
+                <div class="row"><span class="lab">رنگ خامه</span><div class="opts sws"><span class="sw" style="background:#F6C9D0"></span><span class="sw" style="background:#FFF1D6"></span><span class="sw" style="background:#CFE3C4"></span><span class="sw on" style="background:#D9C8F0"></span></div></div>
+                <span class="send">ارسال برای قنادی</span>
+              </div>
+              <div class="preview">
+                <svg viewBox="0 0 200 190" class="cake" aria-hidden="true" style="--frost:#D9C8F0">
+                  <ellipse cx="100" cy="176" rx="86" ry="9" fill="#ead6cc" />
+                  <rect x="34" y="124" width="132" height="50" rx="7" fill="var(--frost)" /><rect x="52" y="82" width="96" height="44" rx="7" fill="var(--frost)" /><rect x="70" y="46" width="60" height="38" rx="7" fill="var(--frost)" />
+                  <rect x="97" y="22" width="6" height="24" rx="2" fill="#8B3A4A" /><path d="M100 10 c5 6 4 11 0 12 c-4 -1 -5 -6 0 -12z" fill="#FFB547" />
+                </svg>
+                <div class="toast">درخواست برای قنادی ارسال شد</div>
+              </div>
+            </div>
+          </div>
+        </Device>
+      </div>
+    </div>
+    <p class="slideno data" aria-hidden="true">01 / 08</p>
+  </div>
+
+  {gallery.length > 0 && (
+    <div class="reel wrap" data-reel>
+      <h3 class="h-s">The finished site, <span class="gel">in both languages.</span></h3>
+      <div class="reel-track">
+        {gallery.map((s) => (
+          <figure class:list={['shot', s.mobile && 'is-mobile']} data-reel-item>
+            {s.mobile ? (
+              <Device kind="phone"><img src={s.src} alt={s.alt} width={s.w} height={s.h} loading="lazy" decoding="async" /></Device>
+            ) : (
+              <Device kind="browser" url="mashoorcake"><img src={s.src} alt={s.alt} width={s.w} height={s.h} loading="lazy" decoding="async" /></Device>
+            )}
+            <figcaption>{s.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  .mc { position: absolute; inset: 0; display: flex; flex-direction: column; background: #fff8f3; color: #3b2a28; font-family: var(--display); font-stretch: 100%; }
+  .mc[data-mc='fa'] { font-family: Tahoma, 'Segoe UI', var(--display); opacity: 0; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 1.4em 2.2em; border-bottom: 1px solid #f0dcd3; }
+  .logo { font-weight: 800; font-size: 1.7em; letter-spacing: -0.03em; color: #8b3a4a; }
+  .logo small { font-weight: 500; color: #a0685c; font-size: 0.6em; margin-inline-start: 0.6em; }
+  .lang { display: flex; gap: 0.3em; background: #f6e6de; border-radius: 2em; padding: 0.3em; }
+  .lang span { font-size: 1em; padding: 0.35em 0.9em; border-radius: 2em; font-weight: 600; }
+  .lang .on { background: #8b3a4a; color: #fff; }
+  .body { flex: 1; display: grid; grid-template-columns: 1fr 1.25fr; gap: 1.6em; padding: 2em 2.2em; }
+  .h4 { font-size: 2.3em; letter-spacing: -0.04em; line-height: 1; font-weight: 800; margin-bottom: 0.4em; }
+  .mc[dir='rtl'] .h4 { letter-spacing: 0; }
+  .s { font-size: 1.1em; color: #8a6a62; margin-bottom: 1.4em; }
+  .row { margin-bottom: 1.25em; }
+  .lab { display: block; font-size: 0.95em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #a0685c; margin-bottom: 0.5em; }
+  .mc[dir='rtl'] .lab { letter-spacing: 0; }
+  .opts { display: flex; gap: 0.5em; flex-wrap: wrap; }
+  .opt { border: 1px solid #ecd2c7; border-radius: 0.6em; padding: 0.45em 0.9em; font-size: 1.05em; font-weight: 600; background: #fff; }
+  .opt.on { border-color: #8b3a4a; background: #8b3a4a; color: #fff; }
+  .sw { width: 2.1em; height: 2.1em; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #ecd2c7; }
+  .sw.on { box-shadow: 0 0 0 2px #8b3a4a; }
+  .send { margin-top: 0.6em; display: inline-flex; align-items: center; gap: 0.6em; background: #3b2a28; color: #fff; font-weight: 700; border-radius: 2em; padding: 0.8em 1.4em; font-size: 1.1em; }
+  .preview { background: radial-gradient(circle at 50% 40%, #fff, #fbeee7); border-radius: 1.2em; position: relative; display: flex; align-items: center; justify-content: center; }
+  .preview svg { width: 82%; height: auto; overflow: visible; }
+  .toast { position: absolute; left: 50%; bottom: 1.2em; transform: translateX(-50%); background: #fff; border-radius: 2em; padding: 0.6em 1.2em; font-size: 1em; font-weight: 700; box-shadow: 0 0.6em 2em rgb(139 58 74 / 0.18); white-space: nowrap; color: #4f6d33; }
+</style>

@@ -1,0 +1,76 @@
+---
+import Device from '../Device.astro';
+import { bethesda } from '../../data/site';
+
+const frames = [
+  { src: '/projects/bethesda/hero.webp', alt: 'Bethesda Labradors home page: a warm hero welcoming families.' },
+  { src: '/projects/bethesda/litter-bento.webp', alt: 'The current litter, with each puppy and weekly updates.' },
+  { src: '/projects/bethesda/puppies-carousel.webp', alt: 'A carousel of puppies showing who is reserved and who is available.' },
+  { src: '/projects/bethesda/parents.webp', alt: 'Meet the parents: parent dog profiles with health results.' },
+  { src: '/projects/bethesda/application-form.webp', alt: 'A multi-step puppy application form that saves a draft.' },
+];
+---
+<section class="chapter" id="encore" data-chapter="encore" data-gel="bethesda" aria-labelledby="enc-title">
+  <div class="stage pin-stage" data-pin="encore">
+    <div class="encore wrap">
+      <div class="copy">
+        <h2 class="h-l" id="enc-title">Encore.</h2>
+        <p class="lede"><b>{bethesda.name}.</b> {bethesda.what}</p>
+        <ol class="beats">
+          {bethesda.features.map((f, i) => (
+            <li data-beat={i} class={i === 0 ? 'on' : ''}><b>{f.title}</b><span>{f.body}</span></li>
+          ))}
+        </ol>
+        <p class="data built">{bethesda.timeline} · {bethesda.stack.join(' · ')}</p>
+      </div>
+      <div class="screens">
+        <Device kind="browser" url="bethesda labradors" class="enc-browser">
+          {frames.map((f, i) => (
+            <img class="frame" data-frame={i} src={f.src} alt={f.alt} width="1440" height="900" loading="lazy" decoding="async" />
+          ))}
+        </Device>
+        <div class="enc-phone">
+          <Device kind="phone"><img src="/projects/bethesda/hero-mobile.webp" alt="Bethesda Labradors on a phone." width="390" height="844" loading="lazy" /></Device>
+        </div>
+      </div>
+    </div>
+    <p class="slideno data" aria-hidden="true">06 / 08</p>
+  </div>
+</section>
+
+<style>
+  .stage { display: flex; align-items: center; }
+  .encore { width: 100%; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(28px, 4.5vw, 80px); align-items: center; }
+  .copy h2 { margin-bottom: 18px; }
+  .beats { list-style: none; margin-top: 24px; display: grid; gap: 2px; }
+  .beats { counter-reset: b; }
+  .beats li { counter-increment: b; padding: 10px 0 10px 34px; position: relative; color: var(--faint); transition: color 0.4s; }
+  .beats li::before { content: counter(b); position: absolute; left: 0; top: 11px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%;
+    font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--faint); box-shadow: 0 0 0 1px var(--line-strong) inset; transition: background-color 0.4s, color 0.4s, box-shadow 0.4s; }
+  .beats b { display: block; font-weight: 750; font-stretch: 108%; letter-spacing: -0.02em; font-size: clamp(1.05rem, 1.4vw, 1.25rem); }
+  .beats li { display: grid; grid-template-rows: auto 0fr; transition: color 0.4s, grid-template-rows 0.5s var(--ease-out); }
+  .beats span { display: block; font-size: 14.5px; min-height: 0; overflow: hidden; opacity: 0; transition: opacity 0.4s; }
+  .beats li.on { color: var(--fg); }
+  .beats li.on::before { background: var(--gel); color: #fff; box-shadow: none; }
+  .beats li.on { grid-template-rows: auto 1fr; }
+  .beats li.on span { opacity: 1; color: var(--mute); margin-top: 3px; }
+  .built { margin-top: 22px; }
+
+  .screens { position: relative; padding-bottom: 6%; }
+  .screens :global(.enc-browser) { font-size: clamp(5px, 0.72vw, 10.5px); width: 92%; }
+  .frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; }
+  .frame[data-frame='0'] { opacity: 1; }
+  .enc-phone { position: absolute; right: 0; bottom: -4%; z-index: 2; transform: rotate(4deg); }
+  .enc-phone :global(.phone) { font-size: clamp(4.6px, 0.48vw, 7px); }
+  .enc-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+  @media (max-width: 900px) {
+    .stage { align-items: flex-start; padding-top: 84px; }
+    .encore { grid-template-columns: 1fr; }
+    .screens :global(.enc-browser) { width: 100%; font-size: 1.2vw; }
+    .enc-phone { display: none; }
+    .beats li { grid-template-rows: auto 1fr; }
+    .beats span { opacity: 1; }
+    .beats li { color: var(--fg); }
+  }
+</style>

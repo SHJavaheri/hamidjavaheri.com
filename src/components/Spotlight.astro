@@ -1,0 +1,26 @@
+<div class="spot" aria-hidden="true">
+  <div class="veil" data-spot-veil></div>
+  <canvas class="dark" data-spot-dark></canvas>
+  <canvas class="dust" data-spot-dust></canvas>
+</div>
+
+<style>
+  .spot { position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0; transition: opacity 0.9s var(--ease-in-out); }
+  :global([data-theme='dark']) .spot { opacity: 1; }
+  canvas, .veil { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* quarter-res darkness, upscaled smoothly; a touch of CSS blur erases any remaining banding */
+  .dark { filter: blur(6px); transform: scale(1.04); }
+  /* Slight blur everywhere the light isn't. The mask leaves the pool sharp and feathers into the blur. */
+  .veil { display: none; }
+  .spot.live .veil {
+    display: block;
+    backdrop-filter: blur(1.6px) saturate(0.92);
+    -webkit-backdrop-filter: blur(1.6px) saturate(0.92);
+    --lx: 50%; --ly: 40%; --lr: 260px;
+    mask-image: radial-gradient(calc(var(--lr) * 1.05) calc(var(--lr) * 0.92) at var(--lx) var(--ly), transparent 35%, rgb(0 0 0 / 0.6) 70%, #000 100%);
+    -webkit-mask-image: radial-gradient(calc(var(--lr) * 1.05) calc(var(--lr) * 0.92) at var(--lx) var(--ly), transparent 35%, rgb(0 0 0 / 0.6) 70%, #000 100%);
+  }
+  @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .spot.live .veil { display: none; }
+  }
+</style>

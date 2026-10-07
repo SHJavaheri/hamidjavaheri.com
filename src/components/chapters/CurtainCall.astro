@@ -1,0 +1,43 @@
+---
+import Icon from '../Icon.astro';
+import { person } from '../../data/site';
+const year = new Date().getFullYear();
+---
+<section class="chapter" id="curtain-call" data-chapter="curtain-call" data-gel="house" aria-labelledby="cc-title">
+  <div class="stage">
+    <div class="curtains" data-curtains aria-hidden="true"><i></i><i></i></div>
+    <span class="cue" style="left:50%;top:18%;transform:translateX(-50%)">Cue 8: house lights up</span>
+    <h2 class="h-xl" id="cc-title">Thank you<span class="gel">.</span></h2>
+    <p class="lede">Say hello. I'm always glad to talk about building things, and open to interesting collaborations.</p>
+    <ul class="links">
+      <li><a href={`mailto:${person.email}`}><Icon name="mail" /><span>{person.email}</span></a></li>
+      <li><a href={person.linkedin} target="_blank" rel="noopener me"><Icon name="linkedin" /><span>LinkedIn</span></a></li>
+      <li><a href={person.github} target="_blank" rel="noopener me"><Icon name="github" /><span>GitHub</span></a></li>
+    </ul>
+  </div>
+  <footer>
+    <p class="data">© {year} {person.name} · Toronto</p>
+    <a class="data top" href="#opening" data-rewind>Back to the opening <Icon name="arrow-up" size={14} /></a>
+  </footer>
+</section>
+
+<style>
+  .stage { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .curtains { position: absolute; inset: 0; pointer-events: none; display: flex; justify-content: space-between; }
+  .curtains i { width: 50.5%; height: 100%;
+    background: repeating-linear-gradient(90deg, #7a1f2b 0 3.4vw, #5c1520 3.4vw 6.8vw); box-shadow: inset -60px 0 90px rgb(0 0 0 / 0.45); }
+  .curtains i:last-child { box-shadow: inset 60px 0 90px rgb(0 0 0 / 0.45); }
+  h2, .lede, .links { position: relative; }
+  .lede { margin: 22px auto 0; text-align: center; }
+  .links { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 38px; }
+  .links a { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 15px; padding: 13px 20px; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--panel) 80%, transparent);
+    transition: border-color 0.25s, background-color 0.25s, transform 0.2s var(--ease-out); }
+  .links a:hover { border-color: var(--gel); background: color-mix(in srgb, var(--gel) 10%, var(--panel)); transform: translateY(-2px); }
+  .links a:active { transform: none; }
+  .links a :global(svg) { color: var(--gel-ink); }
+  footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px var(--gutter) 28px; border-top: 1px solid var(--line); }
+  .top { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .top:hover { color: var(--fg); }
+  @media (prefers-reduced-motion: reduce) { .curtains { display: none; } }
+</style>

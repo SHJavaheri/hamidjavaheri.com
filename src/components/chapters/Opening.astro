@@ -1,0 +1,53 @@
+---
+import { chapters, person } from '../../data/site';
+---
+<section class="chapter" id="opening" data-chapter="opening" data-gel="house" aria-labelledby="opening-title">
+  <div class="stage">
+    <span class="cue" style="left:8%;top:24%">Cue 1: house lights down</span>
+    <span class="cue" style="right:9%;top:62%">Note: smile. Pause. Let it land.</span>
+
+    <div class="inner" data-hero-inner>
+    <div class="portrait" data-spot-anchor>
+      <div class="pool" aria-hidden="true"></div>
+      <img src="/media/profile.jpg" alt="Hamid Javaheri, smiling, in a suit." width="800" height="800" fetchpriority="high" decoding="async" />
+    </div>
+
+    <h1 class="h-xl name" id="opening-title" data-intro>{person.name}<span class="dot">.</span></h1>
+    <p class="lede intro" data-intro>
+      Since I was a kid, I've wanted to be an <b>inventor</b>, someone whose ideas could simply come to life.
+      Software is where it started. <span class="gel">This is the show so far.</span>
+    </p>
+
+    <ol class="runofshow" aria-label="Run of show" data-intro>
+      {chapters.slice(1).map((c, i) => (
+        <li><a href={`#${c.id}`}><b>{String(i + 1).padStart(2, '0')}</b>{c.name}</a></li>
+      ))}
+    </ol>
+    </div>
+
+    <p class="scrollcue data" aria-hidden="true"><span>Scroll to begin the show</span><i></i></p>
+  </div>
+</section>
+
+<style>
+  .stage { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 96px; }
+  .inner { display: flex; flex-direction: column; align-items: center; }
+  .portrait { width: clamp(170px, 21vw, 290px); aspect-ratio: 1; position: relative; margin-bottom: clamp(20px, 3.4vh, 36px); }
+  .portrait img { position: relative; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; border-radius: 50%;
+    box-shadow: 0 0 0 6px var(--bg), 0 0 0 7px color-mix(in srgb, var(--gel) 45%, transparent), var(--shadow-lg); transition: box-shadow 0.8s; }
+  /* the floor light under the portrait, in the house gel */
+  .pool { position: absolute; left: 50%; bottom: -16%; width: 190%; height: 34%; transform: translateX(-50%);
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--gel-2) 42%, transparent), transparent); filter: blur(8px); }
+  .name { margin-bottom: clamp(16px, 2.6vh, 26px); }
+  .dot { color: var(--gel); }
+  .intro { margin: 0 auto; max-width: 31em; text-wrap: balance; }
+  .runofshow { list-style: none; margin-top: clamp(28px, 5.4vh, 56px); display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; max-width: 1180px; }
+  .runofshow li { white-space: nowrap; }
+  .runofshow a { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color 0.2s; }
+  .runofshow a:hover { color: var(--fg); }
+  .runofshow b { color: var(--gel-ink); font-weight: 600; margin-right: 6px; }
+  .scrollcue { position: absolute; bottom: 24px; left: var(--gutter); display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .scrollcue i { width: 1px; height: 38px; background: linear-gradient(var(--gel), transparent); animation: drip 2.2s var(--ease-in-out) infinite; transform-origin: top; }
+  @keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  @media (max-width: 600px) { .runofshow { display: none; } }
+</style>

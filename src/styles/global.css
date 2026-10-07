@@ -1,0 +1,157 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+@import '@fontsource-variable/nunito/wght.css';
+
+/* Stage-lighting gels: registered so the whole stage can cross-fade between projects. */
+@property --gel { syntax: '<color>'; inherits: true; initial-value: #d9862b; }
+@property --gel-2 { syntax: '<color>'; inherits: true; initial-value: #f2b33d; }
+@property --gel-ink { syntax: '<color>'; inherits: true; initial-value: #8a4a08; }
+
+:root {
+  /* light stage (default): house lights up */
+  --bg: #fbfaf7;
+  --bg-2: #f3f1ec;
+  --fg: #17161a;
+  --mute: #5f5d66;
+  --faint: #9b98a2;
+  --line: rgb(23 22 26 / 0.1);
+  --line-strong: rgb(23 22 26 / 0.2);
+  --panel: #ffffff;
+  --shadow: 0 1px 2px rgb(20 16 10 / 0.06), 0 24px 60px -24px rgb(40 28 10 / 0.28);
+  --shadow-lg: 0 2px 4px rgb(20 16 10 / 0.06), 0 50px 120px -40px rgb(40 28 10 / 0.38);
+
+  /* the house gel: stage amber */
+  --gel: #d9862b;
+  --gel-2: #f2b33d;
+  --gel-ink: #8a4a08;
+  --wash: 0.34;
+
+  --display: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+  --brand: 'Nunito Variable', 'Nunito', system-ui, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --max: 1240px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  color-scheme: light;
+  transition: --gel 1.1s var(--ease-in-out), --gel-2 1.1s var(--ease-in-out), --gel-ink 1.1s var(--ease-in-out);
+}
+
+:root[data-theme='dark'] {
+  /* house lights down: a black stage */
+  --bg: #050506;
+  --bg-2: #0c0c0f;
+  --fg: #f4f3f1;
+  --mute: #a3a1aa;
+  --faint: #6c6a72;
+  --line: rgb(255 255 255 / 0.1);
+  --line-strong: rgb(255 255 255 / 0.2);
+  --panel: #111114;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 30px 70px -30px rgb(0 0 0 / 0.9);
+  --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.5), 0 60px 140px -40px rgb(0 0 0 / 0.95);
+  --wash: 0.26;
+  color-scheme: dark;
+}
+
+/* Chapter gels. Each project lights the stage in its own brand colours. */
+:root[data-gel='mashoor'] { --gel: #c8566c; --gel-2: #6fbfae; --gel-ink: #9a3a50; }
+:root[data-gel='firstline'] { --gel: #2563eb; --gel-2: #06b6d4; --gel-ink: #1d4ed8; }
+:root[data-gel='podium'] { --gel: #d9a441; --gel-2: #c0c4cc; --gel-ink: #8a5a08; }
+:root[data-gel='hublii'] { --gel: #5e7a4e; --gel-2: #d9a441; --gel-ink: #46603a; }
+:root[data-gel='dev'] { --gel: #8a6fd0; --gel-2: #e9b949; --gel-ink: #6f55a8; }
+:root[data-gel='bethesda'] { --gel: #e89a2a; --gel-2: #4a2c1e; --gel-ink: #9a5a0c; }
+:root[data-gel='backstage'] { --gel: #d9862b; --gel-2: #c8566c; --gel-ink: #8a4a08; }
+:root[data-theme='dark'][data-gel='mashoor'] { --gel-ink: #f08ca0; }
+:root[data-theme='dark'][data-gel='firstline'] { --gel-ink: #60a5fa; }
+:root[data-theme='dark'][data-gel='podium'] { --gel-ink: #f2c46b; }
+:root[data-theme='dark'][data-gel='hublii'] { --gel-ink: #a9c394; }
+:root[data-theme='dark'][data-gel='dev'] { --gel-ink: #b9a5f0; }
+:root[data-theme='dark'][data-gel='bethesda'] { --gel-ink: #f5b041; }
+:root[data-theme='dark'],
+:root[data-theme='dark'][data-gel='backstage'] { --gel-ink: #f2b33d; }
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html {
+  background: var(--bg);
+  transition: background-color 0.7s var(--ease-in-out);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+body {
+  background: transparent; /* html paints the ground, so the fixed .rig light shows through */
+  color: var(--fg);
+  font-family: var(--display);
+  font-stretch: 100%;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  transition: color 0.7s var(--ease-in-out);
+  caret-color: var(--gel);
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+button { font: inherit; color: inherit; }
+::selection { background: color-mix(in srgb, var(--gel) 85%, transparent); color: #fff; }
+:focus-visible { outline: 2px solid var(--gel); outline-offset: 3px; border-radius: 6px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: fixed; left: 16px; top: -60px; z-index: 100; background: var(--fg); color: var(--bg);
+  padding: 10px 16px; border-radius: 999px; text-decoration: none; font-weight: 600;
+  transition: top 0.2s var(--ease-out);
+}
+.skip:focus { top: 14px; }
+
+/* ---------- type scale ---------- */
+.h-xl, .h-l, .h-m { font-weight: 800; font-stretch: 112%; letter-spacing: -0.04em; line-height: 0.92; text-wrap: balance; }
+.h-xl { font-size: clamp(3rem, 9vw, 6rem); }
+.h-l { font-size: clamp(2.6rem, 7vw, 5.6rem); }
+.h-m { font-size: clamp(2.1rem, 4.6vw, 4.4rem); line-height: 0.96; }
+.h-s { font-weight: 750; font-stretch: 108%; letter-spacing: -0.03em; font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1.05; text-wrap: balance; }
+.lede {
+  font-size: clamp(1.06rem, 1.45vw, 1.4rem); line-height: 1.5; color: var(--mute);
+  letter-spacing: -0.01em; max-width: 36em; text-wrap: pretty;
+}
+.lede b, .lede strong { color: var(--fg); font-weight: 600; }
+.gel { color: var(--gel-ink); }
+.data { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); font-variant-numeric: tabular-nums; }
+
+/* ---------- stage scaffolding ---------- */
+.chapter { position: relative; }
+.stage {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(84px, 12vh, 120px) var(--gutter) clamp(48px, 8vh, 80px);
+}
+.pin-stage { height: 100vh; height: 100svh; overflow: hidden; }
+.wrap { max-width: var(--max); margin-inline: auto; }
+
+/* Whole-page stage light: a soft wash from the rig in the current gel. */
+.rig {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 18% -8%, color-mix(in srgb, var(--gel) calc(var(--wash) * 100%), transparent), transparent 70%),
+    radial-gradient(55% 45% at 86% -4%, color-mix(in srgb, var(--gel-2) calc(var(--wash) * 85%), transparent), transparent 70%),
+    radial-gradient(80% 40% at 50% 112%, color-mix(in srgb, var(--gel) calc(var(--wash) * 55%), transparent), transparent 70%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

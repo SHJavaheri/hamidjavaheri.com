@@ -1,0 +1,114 @@
+---
+import Device from '../Device.astro';
+import { hublii, pawmetric } from '../../data/site';
+---
+<section class="chapter" id="in-development" data-chapter="in-development" data-gel="dev" aria-labelledby="dev-title">
+  <div class="stage">
+    <div class="wrap">
+      <h2 class="h-l rv" id="dev-title">Currently<br /><span class="gel">in development.</span></h2>
+      <div class="grid">
+        <article class="slide hub rv">
+          <h3 class="name brand">hublii</h3>
+          <p>The client portal is taking shape. The waitlist is open, billing is next on the bench, and then it's launch.</p>
+          <ol class="track">
+            {hublii.roadmap.map((r) => (
+              <li class={r.state}><b>{r.label}</b><span class="data">{r.note}</span></li>
+            ))}
+          </ol>
+          <img class="yumi" src="/projects/hublii/empty-list.webp" alt="" width="400" height="400" loading="lazy" />
+        </article>
+
+        <article class="slide paw rv">
+          <div class="paw-copy">
+            <h3 class="name">{pawmetric.name}</h3>
+            <p><b>{pawmetric.tagline}</b> {pawmetric.what}</p>
+            <ul class="mini">
+              {pawmetric.features.map((f) => <li>{f}</li>)}
+            </ul>
+            <p class="data built">{pawmetric.timeline} · {pawmetric.stack.join(' · ')}</p>
+          </div>
+          <div class="paw-phone" data-paw-phone>
+            <Device kind="phone">
+              <div class="pw">
+                <div class="pw-hd"><img src="/projects/pawmetric/icon.webp" alt="" width="64" height="64" /><div><b>Today</b><small>Your puppy, at a glance</small></div></div>
+                <div class="ring" style="--p:78"><div><b>78</b><small>Wellness</small></div></div>
+                <div class="pred"><small>Prediction</small><b>Potty break likely in about 25 min</b></div>
+                <div class="bars" aria-hidden="true"><i style="height:42%"></i><i style="height:64%"></i><i style="height:52%"></i><i style="height:86%"></i><i style="height:60%"></i><i style="height:74%"></i><i style="height:48%"></i></div>
+                <div class="log">
+                  <span><i style="background:#a98fe0"></i>Walk · 20 min</span>
+                  <span><i style="background:#e9b949"></i>Meal</span>
+                  <span><i style="background:#f0be8e"></i>Nap · 1h 10m</span>
+                </div>
+              </div>
+            </Device>
+            <p class="data paw-note">Sample data</p>
+          </div>
+        </article>
+      </div>
+    </div>
+    <p class="slideno data" aria-hidden="true">05 / 08</p>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(16px, 2vw, 28px); margin-top: clamp(30px, 6vh, 60px); }
+  .slide { border-radius: 30px; background: var(--panel); box-shadow: 0 0 0 1px var(--line) inset, var(--shadow); padding: clamp(24px, 3vw, 44px); position: relative; overflow: hidden; min-height: 480px; display: flex; flex-direction: column; }
+  .slide p { color: var(--mute); font-size: 16px; line-height: 1.55; max-width: 30em; }
+  .slide p b { color: var(--fg); }
+  .name { font-weight: 800; font-stretch: 112%; letter-spacing: -0.045em; font-size: clamp(2.4rem, 4vw, 3.8rem); line-height: 0.95; margin-bottom: 14px; }
+  .name.brand { font-family: var(--brand); font-stretch: 100%; font-weight: 900; letter-spacing: -0.035em; color: #46603a; }
+  :global([data-theme='dark']) .name.brand { color: #a9c394; }
+  .hub { background: linear-gradient(180deg, color-mix(in srgb, #f4efe6 70%, var(--panel)), var(--panel)); }
+  :global([data-theme='dark']) .hub { background: linear-gradient(180deg, #1d1a16, var(--panel)); }
+  .yumi { position: absolute; right: -2%; bottom: 92px; width: 34%; opacity: 0.95; pointer-events: none; }
+
+  .track { list-style: none; margin-top: auto; padding-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); position: relative; }
+  .track::before { content: ''; position: absolute; left: 0; right: 0; top: 37px; height: 2px; background: var(--line-strong); }
+  .track li { position: relative; padding-top: 26px; font-size: 15px; }
+  .track li::before { content: ''; position: absolute; top: 1px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--panel); border: 2px solid var(--line-strong); }
+  .track li.done::before { background: #5e7a4e; border-color: #5e7a4e; box-shadow: 0 0 0 5px rgb(94 122 78 / 0.22); }
+  .track li.next::before { border-color: var(--gel); background: color-mix(in srgb, var(--gel) 25%, var(--panel)); animation: pulse 2s var(--ease-in-out) infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--gel) 18%, transparent); } }
+  .track b { display: block; font-weight: 700; }
+
+  .paw { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; background: linear-gradient(160deg, color-mix(in srgb, #a98fe0 16%, var(--panel)), var(--panel) 60%); }
+  .paw-copy { display: flex; flex-direction: column; }
+  .mini { list-style: none; margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .mini li { font-size: 13px; font-weight: 600; padding: 6px 11px; border-radius: 999px; background: color-mix(in srgb, #a98fe0 16%, transparent); color: var(--fg); }
+  .built { margin-top: auto; padding-top: 24px; }
+  .paw-phone { align-self: end; margin-bottom: -38%; transform: rotate(-6deg); }
+  .paw-note { position: absolute; left: 50%; top: -28px; transform: translateX(-50%) rotate(6deg); white-space: nowrap; color: var(--mute); }
+  .paw-phone { position: relative; }
+  .paw-phone :global(.phone) { font-size: clamp(5.4px, 0.62vw, 8.6px); }
+
+  .pw { position: absolute; inset: 0; background: #fbf7ff; color: #2a2236; padding: 5.2em 1.8em 1.8em; display: flex; flex-direction: column; gap: 1.3em; font-family: var(--display); }
+  .pw-hd { display: flex; gap: 0.9em; align-items: center; }
+  .pw-hd img { width: 3.4em; height: 3.4em; border-radius: 0.9em; }
+  .pw-hd b { display: block; font-size: 2em; letter-spacing: -0.04em; line-height: 1; }
+  .pw-hd small { font-size: 1.05em; color: #7a6f8c; }
+  .ring { width: 15em; height: 15em; margin: 0.4em auto; border-radius: 50%; display: grid; place-items: center;
+    background: conic-gradient(#a98fe0 calc(var(--p) * 1%), #ece4fb 0); position: relative; }
+  .ring::after { content: ''; position: absolute; inset: 1.7em; border-radius: 50%; background: #fbf7ff; }
+  .ring div { position: relative; z-index: 1; text-align: center; }
+  .ring b { display: block; font-size: 4em; font-weight: 900; letter-spacing: -0.05em; line-height: 1; color: #6f55a8; }
+  .ring small { font-size: 1.1em; font-weight: 700; color: #7a6f8c; text-transform: uppercase; letter-spacing: 0.08em; }
+  .pred { background: #fff; border-radius: 1.3em; padding: 1em 1.2em; box-shadow: 0 0.3em 1.2em rgb(80 60 120 / 0.08); }
+  .pred small { display: block; color: #8a7aa6; font-weight: 700; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3em; }
+  .pred b { font-size: 1.3em; letter-spacing: -0.02em; }
+  .bars { display: flex; align-items: flex-end; gap: 0.6em; height: 7em; }
+  .bars i { flex: 1; border-radius: 0.5em 0.5em 0.2em 0.2em; background: #d9cdf5; }
+  .bars i:nth-child(4) { background: #e9b949; }
+  .log { display: grid; gap: 0.6em; font-size: 1.15em; font-weight: 600; }
+  .log span { display: flex; align-items: center; gap: 0.6em; background: #fff; border-radius: 1em; padding: 0.7em 1em; }
+  .log i { width: 0.8em; height: 0.8em; border-radius: 50%; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .paw { grid-template-columns: 1fr; }
+    .paw-phone { justify-self: center; margin-bottom: -50%; }
+    .paw-note { position: absolute; left: 50%; top: -28px; transform: translateX(-50%) rotate(6deg); white-space: nowrap; color: var(--mute); }
+  .paw-phone { position: relative; }
+  .paw-phone :global(.phone) { font-size: 1.6vw; }
+    .yumi { width: 30%; bottom: 100px; }
+  }
+</style>

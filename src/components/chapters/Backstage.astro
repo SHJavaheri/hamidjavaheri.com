@@ -1,0 +1,50 @@
+---
+import { person, goals, longGoal } from '../../data/site';
+---
+<section class="chapter" id="backstage" data-chapter="backstage" data-gel="backstage" aria-labelledby="bs-title">
+  <div class="stage">
+    <div class="wrap">
+      <h2 class="h-l rv" id="bs-title">Backstage.</h2>
+      <div class="about">
+        <dl class="facts rv">
+          <div><dt class="data">By day</dt><dd>{person.role}<small>{person.team}</small></dd></div>
+          <div><dt class="data">Studied</dt><dd>{person.degree}<small>{person.school} ({person.schoolNote}), class of {person.classOf}</small></dd></div>
+          <div><dt class="data">Based in</dt><dd>{person.city}<small>Building things on nights and weekends</small></dd></div>
+          <div><dt class="data">Since</dt><dd>Childhood<small>The kid who wanted to be an inventor, still at it</small></dd></div>
+        </dl>
+        <div class="rv">
+          <h3 class="h-s next">The next show.</h3>
+          <ol class="goals">
+            {goals.map((g) => <li>{g}</li>)}
+          </ol>
+        </div>
+      </div>
+      <div class="longgoal">
+        <h3 class="sr-only">The long goal</h3>
+        <q data-longgoal>{longGoal}</q>
+      </div>
+    </div>
+    <p class="slideno data" aria-hidden="true">07 / 08</p>
+  </div>
+</section>
+
+<style>
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 100px); margin-top: clamp(28px, 5vh, 56px); }
+  .facts { border-top: 1px solid var(--line); }
+  .facts div { padding: 20px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 110px 1fr; gap: 16px; align-items: baseline; }
+  .facts dd { font-size: clamp(1.05rem, 1.5vw, 1.32rem); line-height: 1.35; font-weight: 600; letter-spacing: -0.015em; }
+  .facts small { display: block; color: var(--mute); font-size: 0.78em; font-weight: 400; margin-top: 4px; letter-spacing: 0; }
+  .next { margin-bottom: 8px; }
+  .goals { list-style: none; counter-reset: g; }
+  .goals li { counter-increment: g; display: flex; gap: 18px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line);
+    font-weight: 750; font-stretch: 108%; letter-spacing: -0.03em; font-size: clamp(1.4rem, 2.4vw, 2.2rem); line-height: 1.05; }
+  .goals li::before { content: counter(g); flex: none; width: 1.6em; height: 1.6em; display: grid; place-items: center; border-radius: 50%;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0; font-weight: 600; color: #fff; background: var(--gel); transform: translateY(-0.2em); }
+  .longgoal { margin-top: clamp(80px, 16vh, 170px); text-align: center; }
+  .longgoal q { display: block; quotes: none; font-weight: 800; font-stretch: 112%; letter-spacing: -0.04em; font-size: clamp(2.3rem, 6.2vw, 6rem); line-height: 0.96; max-width: 14em; margin: 0 auto; text-wrap: balance; }
+  .longgoal q :global(.w) { opacity: 0.16; }
+  @media (max-width: 900px) {
+    .about { grid-template-columns: 1fr; }
+    .facts div { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+/** One stroke family for every icon on the site: 24px grid, 1.6 stroke, round joins. */
+type Name = 'house-up' | 'house-down' | 'sound' | 'sound-off' | 'arrow-ur' | 'arrow-up' | 'mail' | 'linkedin' | 'github' | 'check';
+interface Props { name: Name; size?: number; class?: string; }
+const { name, size = 18, class: cls } = Astro.props;
+---
+<svg class={cls} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {name === 'house-up' && (<>
+    <path d="M9 18h6M10 21h4" /><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3Z" />
+    <path d="M12 0.6v.6M3.4 4.4l.5.4M20.6 4.4l-.5.4" />
+  </>)}
+  {name === 'house-down' && (<>
+    <path d="M9 18h6M10 21h4" /><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3Z" />
+  </>)}
+  {name === 'sound' && (<>
+    <path d="M4 9.5h3l4.5-4v13L7 14.5H4z" /><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+  </>)}
+  {name === 'sound-off' && (<>
+    <path d="M4 9.5h3l4.5-4v13L7 14.5H4z" /><path d="m16 10 4 4M20 10l-4 4" />
+  </>)}
+  {name === 'arrow-ur' && <path d="M7 17 17 7M8 7h9v9" />}
+  {name === 'arrow-up' && <path d="M12 19V5M6 11l6-6 6 6" />}
+  {name === 'mail' && (<><rect x="3" y="5.5" width="18" height="13" rx="2.5" /><path d="m4 7 8 6 8-6" /></>)}
+  {name === 'linkedin' && (<><rect x="3" y="3" width="18" height="18" rx="4" /><path d="M8 10.5V16M8 7.6v.1M11.5 16v-5.5M11.5 13c0-1.6 1-2.6 2.4-2.6s2.1.9 2.1 2.6V16" /></>)}
+  {name === 'github' && <path d="M9 19c-4 1.3-4-2-5.6-2.5M14.6 21v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.6-1.3 5.6-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6.1 0C6.1 2.6 5.1 2.9 5.1 2.9a4.3 4.3 0 0 0-.1 3.2 4.6 4.6 0 0 0-1.3 3.2c0 4.6 2.8 5.7 5.5 6a3 3 0 0 0-.8 2.3V21" />}
+  {name === 'check' && <path d="m5 12.5 4.5 4.5L19 7.5" />}
+</svg>
