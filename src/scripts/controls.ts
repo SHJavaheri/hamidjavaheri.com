@@ -121,11 +121,7 @@ export function initAudio() {
     if (volume > 0 && audio.paused && wantsSound) play();
   });
 
-  // Quiet the stage when the tab is hidden; bring it back when the visitor returns.
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { if (!audio.paused) { audio.dataset.resume = '1'; audio.pause(); } }
-    else if (audio.dataset.resume) { delete audio.dataset.resume; play(); }
-  });
+  // The score keeps playing when the visitor switches tabs; only the sound button stops it.
 
   paintVolume();
   paint();

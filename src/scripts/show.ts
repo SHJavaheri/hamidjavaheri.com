@@ -1,8 +1,9 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { light } from './spotlight';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => Array.from(r.querySelectorAll<T>(s));
@@ -225,7 +226,22 @@ function settle() {
   $$('.qs li, .beats li').forEach((li) => li.classList.add('on'));
 }
 
+/** Back to the opening: rewind the whole show, slow enough to watch it play backwards. */
+function initRewind() {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  $$<HTMLAnchorElement>('[data-rewind]').forEach((a) =>
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (reduce.matches) { scrollTo(0, 0); return; }
+      const dist = scrollY;
+      const duration = Math.min(5.5, Math.max(1.6, dist / 7000)); // ~4s for the full show
+      gsap.to(window, { scrollTo: { y: 0, autoKill: true }, duration, ease: 'power2.inOut',
+        onComplete: () => { document.getElementById('opening')?.focus({ preventScroll: true }); } });
+    }));
+}
+
 export function initShow() {
+  initRewind();
   const mm = gsap.matchMedia();
   mm.add({ motion: '(prefers-reduced-motion: no-preference)', wide: '(min-width: 901px)' }, (ctx) => {
     const { motion, wide } = ctx.conditions as { motion: boolean; wide: boolean };
