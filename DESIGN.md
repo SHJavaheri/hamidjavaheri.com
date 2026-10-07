@@ -31,10 +31,10 @@ colors:
   gel-podium-2: "#c0c4cc"
   gel-podium-ink: "#8a5a08"
   gel-podium-ink-dark: "#f2c46b"
-  gel-hublii: "#5e7a4e"
-  gel-hublii-2: "#d9a441"
-  gel-hublii-ink: "#46603a"
-  gel-hublii-ink-dark: "#a9c394"
+  gel-hublii: "#d8963a"
+  gel-hublii-2: "#f3b46e"
+  gel-hublii-ink: "#774a10"
+  gel-hublii-ink-dark: "#f0cb85"
   gel-dev: "#8a6fd0"
   gel-dev-2: "#e9b949"
   gel-dev-ink: "#6f55a8"
@@ -185,7 +185,7 @@ The chapter gels. Each is a triple: the gel (wash, progress bar, active tick, nu
 - **MasHoorCake Rose and Mint** (`gel-mashoor` / `gel-mashoor-2`): chapter 01.
 - **FirstLine Blue and Cyan** (`gel-firstline` / `gel-firstline-2`): chapter 02, the project's own brand pair.
 - **Podium Gold and Silver** (`gel-podium` / `gel-podium-2`): chapter 03.
-- **hublii Moss and Amber** (`gel-hublii` / `gel-hublii-2`): chapter 04, the finale; moss is also the waitlist button.
+- **hublii Golden Hour** (`gel-hublii` amber / `gel-hublii-2` sun): chapter 04, the finale, taken from hublii's own Golden hour theme (bg `#f6eadb`, ink `#3a2e26`, sky `#f6e1c6` → `#f3d2b0` → `#ebc3b3`, hills `#e7c7a4` / `#d8ae8a` / `#c4987a`). Dark mode uses hublii's Evening theme (`#1c1916`, ink `#eee6da`, amber `#e8b967`). The reveal stage is a golden-hour sky with a low sun and three hills.
 - **Pawmetric Lavender and Gold** (`gel-dev` / `gel-dev-2`): chapter 05, in development.
 - **Bethesda Sun and Chocolate** (`gel-bethesda` / `gel-bethesda-2`): chapter 06, encore.
 
@@ -265,7 +265,7 @@ Calm, pill-shaped, lit by the gel on interaction.
 - **Shape:** full pill (999px).
 - **Presenter pill:** mono uppercase 10.5px, 36px tall, translucent panel (70%) with 10px backdrop blur and a strong rule border. Hover turns the border to the gel; active scales to 0.97. Collapses to a 36px icon-only circle under 720px.
 - **Link pill (curtain call):** Archivo 600 at 15px, gel-ink icon, 80% panel. Hover: gel border, a 10% gel tint and a 2px lift.
-- **hublii waitlist CTA:** the only filled button on the site, in hublii moss with white text and a soft moss glow; hover deepens to the moss ink and lifts 2px. It is hublii's brand action, not a stage style.
+- **hublii waitlist CTA:** the only filled button on the site, in hublii's primary ink `#3a2e26` with `#fcf1e4` text (inverted in Evening); hover deepens to `#2e2620`, lifts 2px and glows amber. It is hublii's brand action, not a stage style.
 
 ### Chips
 - **Style:** stack chips are 13px Archivo 600 pills with a strong rule border on 70% panel; Pawmetric's mini chips use a 16% lavender fill instead of a border.

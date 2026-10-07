@@ -44,7 +44,8 @@ function initPresenter() {
 
 function intro() {
   gsap.from('[data-intro]', { opacity: 0, y: 26, filter: 'blur(6px)', duration: 1.1, stagger: 0.12, delay: 0.25, ease: 'expo.out', clearProps: 'filter' });
-  gsap.from('[data-spot-anchor]', { opacity: 0, scale: 0.92, duration: 1.3, ease: 'expo.out' });
+  // The photo fades in on its own; its frame belongs to the scroll transition, so the two never fight.
+  gsap.from('[data-spot-anchor] img', { opacity: 0, scale: 0.92, duration: 1.3, ease: 'expo.out', clearProps: 'opacity,transform' });
 }
 
 function choreograph() {
