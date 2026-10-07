@@ -703,10 +703,10 @@
       },
       {
         "name": "hublii",
-        "gel": "#5e7a4e",
+        "gel": "#d8963a",
         "gel2": "#d9a441",
-        "ink": "#46603a",
-        "inkDark": "#a9c394",
+        "ink": "#774a10",
+        "inkDark": "#f0cb85",
         "chapters": [
           "hublii"
         ]
@@ -883,7 +883,7 @@
       "refersTo": "cta-hublii",
       "description": "The site's only filled button, in hublii's brand moss, used once in the finale.",
       "html": "<a class=\"ds-cta-hublii\" href=\"#\">Join the waitlist <span class=\"ds-cta-url\">hublii.com</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M8 7h9v9\"/></svg></a>",
-      "css": ".ds-cta-hublii { display: inline-flex; align-items: center; gap: 12px; background: #5e7a4e; color: #fff; text-decoration: none; font-family: var(--display, 'Archivo', sans-serif); font-weight: 700; font-size: 16px; border-radius: 999px; padding: 15px 22px 15px 24px; box-shadow: 0 10px 30px -10px rgb(70 96 58 / 0.7); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s; } .ds-cta-url { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(255 255 255 / 0.8); } .ds-cta-hublii:hover { transform: translateY(-2px); background: #46603a; box-shadow: 0 18px 44px -12px rgb(70 96 58 / 0.85); } .ds-cta-hublii:active { transform: translateY(0) scale(0.98); } .ds-cta-hublii:focus-visible { outline: 2px solid var(--gel, #5e7a4e); outline-offset: 3px; }"
+      "css": ".ds-cta-hublii { display: inline-flex; align-items: center; gap: 12px; background: #d8963a; color: #fff; text-decoration: none; font-family: var(--display, 'Archivo', sans-serif); font-weight: 700; font-size: 16px; border-radius: 999px; padding: 15px 22px 15px 24px; box-shadow: 0 10px 30px -10px rgb(70 96 58 / 0.7); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s; } .ds-cta-url { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(255 255 255 / 0.8); } .ds-cta-hublii:hover { transform: translateY(-2px); background: #774a10; box-shadow: 0 18px 44px -12px rgb(70 96 58 / 0.85); } .ds-cta-hublii:active { transform: translateY(0) scale(0.98); } .ds-cta-hublii:focus-visible { outline: 2px solid var(--gel, #d8963a); outline-offset: 3px; }"
     },
     {
       "name": "Stack Chip",

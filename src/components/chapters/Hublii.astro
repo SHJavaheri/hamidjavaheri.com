@@ -5,10 +5,10 @@ import { hublii } from '../../data/site';
 import { slab, iso } from '../../lib/iso';
 
 const tour = [
-  { q: "What's happening?", a: 'The business sees every client, project and update at a glance.', src: '/projects/hublii/app-dashboard.webp', alt: 'hublii business dashboard: what needs you, money coming in, projects and recent activity.' },
-  { q: 'What do I need to do?', a: 'Clients get a portal that says exactly what they need to do, and when.', src: '/projects/hublii/app-portal-project.webp', alt: "A client's hublii portal: needs-you items, payments and the project path." },
-  { q: 'Where are my things?', a: 'Every file in one place, scanned for malware and easy to find.', src: '/projects/hublii/app-portal-files.webp', alt: 'hublii files view with folders shared between a business and its client.' },
-  { q: 'What happens next?', a: 'Messages, notifications and invoices keep both sides in step.', src: '/projects/hublii/app-portal-messages.webp', alt: 'hublii messages between a landscaping business and its client.' },
+  { q: "What's happening?", a: 'The business sees every client, project and update at a glance.', src: '/projects/hublii/golden-dashboard.webp', alt: 'hublii business dashboard in the Golden hour theme: what needs you, money coming in, projects and recent activity.' },
+  { q: 'What do I need to do?', a: 'Clients get a portal that says exactly what they need to do, and when.', src: '/projects/hublii/golden-project.webp', alt: "A client's hublii portal in the Golden hour theme: needs-you items, payments and the project path." },
+  { q: 'Where are my things?', a: 'Every message, file and approval lives next to the work it belongs to.', src: '/projects/hublii/golden-messages.webp', alt: 'A hublii message thread between a landscaping business and its client, in the Golden hour theme.' },
+  { q: 'What happens next?', a: 'Invoices and payment history keep both sides in step.', src: '/projects/hublii/golden-invoices.webp', alt: 'hublii invoice history with totals and statuses, in the Golden hour theme.' },
 ];
 
 // Exploded stack: four layers of hublii, assembled as you scroll.
@@ -28,7 +28,14 @@ const layers = [
 <section class="chapter" id="hublii" data-chapter="hublii" data-gel="hublii" aria-labelledby="hb-title">
   <!-- One more thing… -->
   <div class="stage pin-stage omt" data-pin="omt">
-    <div class="glow" data-omt-glow aria-hidden="true"></div>
+    <div class="glow" data-omt-glow aria-hidden="true">
+      <i class="sun"></i>
+      <svg class="hills" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path class="h1" d="M0 190 C 220 120 420 150 640 175 S 1080 120 1440 160 V320 H0Z" />
+        <path class="h2" d="M0 235 C 260 185 520 230 760 215 S 1180 185 1440 225 V320 H0Z" />
+        <path class="h3" d="M0 280 C 300 250 600 285 900 268 S 1260 255 1440 275 V320 H0Z" />
+      </svg>
+    </div>
     <p class="omt-line" data-omt-line aria-hidden="true"><span>One</span> <span>more</span> <span>thing</span><span class="ell">…</span></p>
     <div class="reveal" data-omt-reveal>
       <h2 class="wordmark" id="hb-title"><img src="/projects/hublii/tidy-stack.svg" alt="" width="120" height="120" />hublii</h2>
@@ -129,7 +136,7 @@ const layers = [
 
     <div class="phones wrap rv">
       <div class="phone-shot">
-        <Device kind="phone" style="--scr-bg:#fbf8f2"><img src="/projects/hublii/app-portal-phone.webp" alt="hublii's client portal on a phone." width="780" height="1515" loading="lazy" /></Device>
+        <Device kind="phone" style="--scr-bg:#f6eadb"><img src="/projects/hublii/golden-phone.webp" alt="hublii's client portal on a phone, in the Golden hour theme." width="390" height="632" loading="lazy" /></Device>
       </div>
       <div class="site-shot">
         <Device kind="browser" url="hublii.com"><img src="/projects/hublii/site-hero.webp" alt="The hublii.com waitlist page." width="1440" height="900" loading="lazy" /></Device>
@@ -142,23 +149,35 @@ const layers = [
 <style>
   /* ---- one more thing ---- */
   .omt { display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; overflow: hidden !important; }
-  .glow { position: absolute; inset: -20%; pointer-events: none; opacity: 0;
-    background: radial-gradient(ellipse 50% 45% at 50% 56%, color-mix(in srgb, #5e7a4e 42%, transparent), color-mix(in srgb, #d9a441 12%, transparent) 50%, transparent 72%); }
-  :global([data-theme='light']) .glow { background: radial-gradient(ellipse 55% 50% at 50% 55%, #f4efe6, color-mix(in srgb, #a9c394 30%, transparent) 50%, transparent 74%); }
+  /* hublii's Golden hour: a warm sky, a low sun, three hills. Evening in dark mode. */
+  .glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; overflow: hidden;
+    --b1: #f6e1c6; --b2: #f3d2b0; --b3: #ebc3b3; --hl1: #e7c7a4; --hl2: #d8ae8a; --hl3: #c4987a; --sun: #f3b46e;
+    background: linear-gradient(180deg, var(--b1) 0%, var(--b2) 48%, var(--b3) 100%); }
+  :global([data-theme='dark']) .glow { --b1: #1f2a2e; --b2: #252633; --b3: #33281f; --hl1: #2b3a36; --hl2: #23302c; --hl3: #1b2522; --sun: #e9ddb8; }
+  .sun { position: absolute; left: 50%; top: 58%; width: clamp(180px, 22vw, 340px); aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, var(--sun) 0 55%, color-mix(in srgb, var(--sun) 35%, transparent) 70%, transparent 72%); filter: blur(1px); }
+  .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 38%; }
+  .hills .h1 { fill: var(--hl1); } .hills .h2 { fill: var(--hl2); } .hills .h3 { fill: var(--hl3); }
   .omt-line { font-weight: 700; font-stretch: 108%; letter-spacing: -0.04em; font-size: clamp(2.6rem, 7vw, 6rem); line-height: 1; }
   .omt-line span { display: inline-block; }
   .ell { color: var(--gel-ink); }
   .reveal { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 var(--gutter); gap: clamp(14px, 2.4vh, 26px); }
-  .wordmark { display: flex; align-items: center; gap: 0.2em; font-family: var(--brand); font-weight: 900; font-size: clamp(5rem, 15vw, 14rem); letter-spacing: -0.04em; line-height: 0.9; color: #2b2a27; }
-  :global([data-theme='dark']) .wordmark { color: #f4efe6; }
+  .wordmark { position: relative; display: flex; align-items: center; gap: 0.2em; font-family: var(--brand); font-weight: 900; font-size: clamp(5rem, 15vw, 14rem); letter-spacing: -0.04em; line-height: 0.9; color: #3a2e26; }
+  :global([data-theme='dark']) .wordmark { color: #eee6da; }
+  .reveal > * { position: relative; }
+  .reveal .tag1 { color: #3a2e26; }
+  :global([data-theme='dark']) .reveal .tag1 { color: #eee6da; }
+  .reveal .status { color: #6e5d53; }
+  :global([data-theme='dark']) .reveal .status { color: #a89f92; }
   .wordmark img { width: 0.84em; height: 0.84em; }
   .tag1 { font-size: clamp(1.15rem, 2vw, 1.85rem); font-weight: 600; letter-spacing: -0.02em; max-width: 26em; line-height: 1.25; text-wrap: balance; }
   .tag1 em { font-style: normal; color: var(--gel-ink); }
-  .cta { display: inline-flex; align-items: center; gap: 12px; background: #5e7a4e; color: #fff; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 15px 22px 15px 24px;
-    box-shadow: 0 10px 30px -10px rgb(70 96 58 / 0.7); transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), background-color 0.25s; }
-  .cta:hover { transform: translateY(-2px); background: #46603a; box-shadow: 0 18px 44px -12px rgb(70 96 58 / 0.85); }
+  .cta { display: inline-flex; align-items: center; gap: 12px; background: #3a2e26; color: #fcf1e4; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 15px 22px 15px 24px;
+    box-shadow: 0 10px 30px -10px rgb(58 46 38 / 0.6); transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), background-color 0.25s; }
+  .cta:hover { transform: translateY(-2px); background: #2e2620; box-shadow: 0 18px 44px -12px rgb(216 150 58 / 0.7); }
+  :global([data-theme='dark']) .cta { background: #eee6da; color: #1c1916; }
   .cta:active { transform: translateY(0) scale(0.98); }
-  .cta .data { color: rgb(255 255 255 / 0.8); }
+  .cta .data { color: inherit; opacity: 0.75; }
   .status { color: var(--mute); }
 
   /* ---- tour ---- */
@@ -195,12 +214,12 @@ const layers = [
   .stack-grid { width: 100%; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 4fr); gap: clamp(24px, 4vw, 70px); align-items: center; }
   .stack-copy h3 { margin-bottom: 18px; }
   .iso-fig svg { width: 100%; height: auto; overflow: visible; }
-  .f-top, .f-l, .f-r { stroke: #2b2a27; stroke-width: 1.2; stroke-linejoin: round; }
+  .f-top, .f-l, .f-r { stroke: #2e2620; stroke-width: 1.2; stroke-linejoin: round; }
   :global([data-theme='dark']) .f-top, :global([data-theme='dark']) .f-l, :global([data-theme='dark']) .f-r { stroke: rgb(244 239 230 / 0.6); }
-  .l4 .f-top { fill: #fbf8f2; } .l4 .f-l { fill: #e3dbcd; } .l4 .f-r { fill: #cfc4b0; }
-  .l3 .f-top { fill: #a9c6d3; } .l3 .f-l { fill: #6f9db1; } .l3 .f-r { fill: #5b8ba0; }
-  .l2 .f-top { fill: #f2cf86; } .l2 .f-l { fill: #e2b358; } .l2 .f-r { fill: #d9a441; }
-  .l1 .f-top { fill: #9db88c; } .l1 .f-l { fill: #6f8c5d; } .l1 .f-r { fill: #5e7a4e; }
+  .l4 .f-top { fill: #fbf6ec; } .l4 .f-l { fill: #ecdcc4; } .l4 .f-r { fill: #dcc6a8; }
+  .l3 .f-top { fill: #afcbd7; } .l3 .f-l { fill: #8fb0bf; } .l3 .f-r { fill: #6c8fa0; }
+  .l2 .f-top { fill: #f2c77a; } .l2 .f-l { fill: #e3ab55; } .l2 .f-r { fill: #d8963a; }
+  .l1 .f-top { fill: #f3b46e; } .l1 .f-l { fill: #c4987a; } .l1 .f-r { fill: #b35f36; }
   .lab line { stroke: var(--faint); stroke-width: 1; }
   .lab circle { fill: var(--gel-ink); }
   .lab text { font-family: var(--display); font-size: 13px; fill: var(--mute); }
@@ -217,9 +236,9 @@ const layers = [
   .crew { margin-top: clamp(70px, 14vh, 160px); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(30px, 6vw, 90px); align-items: center; }
   .crew h3 { margin-bottom: 18px; }
   .yumi { position: relative; border-radius: 32px; padding: clamp(24px, 3.6vw, 44px); text-align: center; overflow: hidden;
-    background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #a9c394 40%, transparent), transparent 70%), #f4efe6; color: #2b2a27; }
-  :global([data-theme='dark']) .yumi { background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #5e7a4e 45%, transparent), transparent 70%), #2a241f; color: #f5e6d3; }
-  .yumi img { width: min(300px, 80%); margin: 0 auto 12px; filter: drop-shadow(0 18px 26px rgb(43 42 39 / 0.25)); }
+    background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #f3b46e 45%, transparent), transparent 70%), #f6eadb; color: #3a2e26; }
+  :global([data-theme='dark']) .yumi { background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #e8b967 28%, transparent), transparent 70%), #27231f; color: #eee6da; }
+  .yumi img { width: min(300px, 80%); margin: 0 auto 12px; filter: drop-shadow(0 18px 26px rgb(58 46 38 / 0.25)); }
   .yumi-night { display: none; }
   :global([data-theme='dark']) .yumi-day { display: none; }
   :global([data-theme='dark']) .yumi-night { display: block; }

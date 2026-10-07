@@ -1,0 +1,58 @@
+---
+/** One line that writes itself, deletes itself, and writes something else. */
+interface Props { lines: string[]; label: string; }
+const { lines, label } = Astro.props;
+---
+<p class="typewriter" data-typewriter data-lines={JSON.stringify(lines)}>
+  <span class="sr-only">{label}</span>
+  <span class="tw" aria-hidden="true"><span class="tw-text" data-tw-text>{lines[0]}</span><i class="caret"></i></span>
+</p>
+
+<style>
+  .typewriter { min-height: 1.5em; font-size: clamp(1.2rem, 2.1vw, 1.7rem); font-weight: 600; letter-spacing: -0.02em; color: var(--fg); }
+  .tw { display: inline-flex; align-items: center; white-space: pre; }
+  .tw-text { color: var(--fg); }
+  .caret { display: inline-block; width: 3px; height: 1.1em; margin-left: 3px; border-radius: 2px; background: var(--gel); animation: blink 1.05s steps(1) infinite; }
+  .typewriter.typing .caret { animation: none; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
+</style>
+
+<script>
+  const seg = typeof Intl !== 'undefined' && 'Segmenter' in Intl ? new Intl.Segmenter('en', { granularity: 'grapheme' }) : null;
+  const graphemes = (s: string) => (seg ? Array.from(seg.segment(s), (x) => x.segment) : Array.from(s));
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  document.querySelectorAll<HTMLElement>('[data-typewriter]').forEach(async (root) => {
+    const out = root.querySelector<HTMLElement>('[data-tw-text]');
+    const lines: string[] = JSON.parse(root.dataset.lines || '[]');
+    if (!out || lines.length < 2) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let i = 0;
+    await wait(2600); // let the first line be read
+
+    for (;;) {
+      if (document.hidden) { await wait(500); continue; }
+      const next = lines[(i + 1) % lines.length];
+      if (reduce) {
+        out.textContent = next;
+      } else {
+        root.classList.add('typing');
+        // delete, quicker than typing
+        let g = graphemes(out.textContent || '');
+        while (g.length) { g.pop(); out.textContent = g.join(''); await wait(22); }
+        await wait(280);
+        // type, with a little human jitter
+        const target = graphemes(next);
+        for (let k = 1; k <= target.length; k++) {
+          out.textContent = target.slice(0, k).join('');
+          const ch = target[k - 1];
+          await wait(ch === ' ' ? 70 : /[,.!?]/.test(ch) ? 180 : 38 + Math.random() * 46);
+        }
+        root.classList.remove('typing');
+      }
+      i = (i + 1) % lines.length;
+      await wait(reduce ? 3800 : 2300);
+    }
+  });
+</script>
