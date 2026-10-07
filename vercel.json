@@ -36,8 +36,21 @@
       "destination": "https://shjavaheri.github.io/MasHoorCake/"
     },
     {
-      "source": "/MasHoorCake/:path*",
-      "destination": "https://shjavaheri.github.io/MasHoorCake/:path*"
+      "source": "/MasHoorCake/(.*)",
+      "destination": "https://shjavaheri.github.io/MasHoorCake/$1"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.hamidjavaheri.com"
+        }
+      ],
+      "destination": "https://hamidjavaheri.com/$1",
+      "permanent": true
     }
   ]
 }
